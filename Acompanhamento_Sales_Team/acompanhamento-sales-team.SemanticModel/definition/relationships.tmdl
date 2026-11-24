@@ -1,0 +1,97 @@
+relationship e2f94697-7b2f-404b-af49-815e3eab2207
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Proposals.CreatedDate
+	toColumn: LocalDateTable_a7bbd038-b8c8-42e1-9e9d-060143fe8989.Date
+
+relationship ffc6cf52-5947-403e-a012-b57440e6499f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Proposals.ChangedDate
+	toColumn: LocalDateTable_737857d4-44f8-400f-b5fe-438a277a18d9.Date
+
+relationship 39e26b91-3c37-4264-abdc-c5b21ff53c16
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Proposals.ClosedDate
+	toColumn: LocalDateTable_c5efefc7-7dc7-4bf7-9da2-5259834690ca.Date
+
+relationship b9568272-9831-489b-b30e-92c033d9a03c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Proposals.StateChangeDate
+	toColumn: LocalDateTable_678403cf-25e9-4246-9bc3-36506463c387.Date
+
+relationship 1e64f1a2-0c71-47c9-84ae-8493d17c9b6b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Proposals.StartDate
+	toColumn: LocalDateTable_ff9759e8-d747-490d-9023-29d413ad77e5.Date
+
+relationship d3950fd2-086f-411d-9a36-de75807a43da
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Proposals.TargetDate
+	toColumn: LocalDateTable_45d499df-817a-4bd8-964e-e3a08bfa0fd6.Date
+
+relationship da77c8fa-fac4-4a61-b57d-23b0b9db3d4e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Proposals.ApprovalDate
+	toColumn: LocalDateTable_8d2541df-0bbb-460b-b64e-ba4367a57ee5.Date
+
+relationship 300900df-aa78-4a68-93b2-26d4a0c6b2ba
+	joinOnDateBehavior: datePartOnly
+	fromColumn: ProposalStateHistory.DataEntrada
+	toColumn: LocalDateTable_4399f1cc-662f-4060-a777-c8e2ae4f95c2.Date
+
+relationship 982d29ca-2c56-4b94-9fcb-e734d4959a79
+	joinOnDateBehavior: datePartOnly
+	fromColumn: ProposalStateHistory.DataSaida
+	toColumn: LocalDateTable_1cb36d90-2f8b-4a2c-b57a-08aa2674c32e.Date
+
+relationship 3e39d261-153c-483e-bf75-2914bede496a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: ProposalStateHistory.DataReferencia
+	toColumn: LocalDateTable_0df0fb24-64e4-457f-8a88-b681331d073e.Date
+
+relationship fac7d1c6-0ace-4634-af77-ba1657e6289b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: TechnicalWorkItems.CreatedDate
+	toColumn: LocalDateTable_efc006ef-4fe8-4243-ab63-3e2dafae189d.Date
+
+relationship b14ffdf4-037c-4457-8c70-ca098fd010e8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: TechnicalWorkItems.ChangedDate
+	toColumn: LocalDateTable_712b5ee9-ac99-47cf-8bd3-34f6770ebaf9.Date
+
+relationship 8cabc251-5b94-494b-997d-ef9e2db2cff0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: TechnicalWorkItems.ClosedDate
+	toColumn: LocalDateTable_5d0ef430-5fe4-4e13-81c3-41436171f610.Date
+
+relationship 33a1b711-a5fc-46d3-837d-141879e7a630
+	joinOnDateBehavior: datePartOnly
+	fromColumn: TechnicalWorkItems.StateChangeDate
+	toColumn: LocalDateTable_7cf04cac-6380-4c85-837b-b9ae90d2dda6.Date
+
+relationship a58d2bbc-238d-42a8-aa2c-f649a4a285ac
+	joinOnDateBehavior: datePartOnly
+	fromColumn: TechnicalWorkItems.StartDate
+	toColumn: LocalDateTable_67970e03-1e6a-403a-961f-6454094d6ad2.Date
+
+relationship 0c032216-c710-4fa7-88a7-0b9a813c6ca3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: TechnicalWorkItems.TargetDate
+	toColumn: LocalDateTable_cb61205c-6fcb-4d93-bc6e-1211a80cf6bd.Date
+
+relationship 7658cf0f-b0fc-420f-b945-c4390ba85e70
+	joinOnDateBehavior: datePartOnly
+	fromColumn: TechnicalWorkItems.ApprovalDate
+	toColumn: LocalDateTable_7103621b-df1e-4a37-9984-937b67d3634c.Date
+
+relationship AutoDetected_6c525aa1-fe45-47da-9df6-54a3f80d1247
+	fromColumn: CardFields.WorkItemId
+	toColumn: Proposals.WorkItemId
+
+relationship AutoDetected_d019b431-fae1-4da7-8fcf-6075e589c850
+	fromColumn: ProposalDependencyTypes.WorkItemId
+	toColumn: Proposals.WorkItemId
+
+relationship AutoDetected_ec65746a-9623-49f2-bef5-22c3e515a496
+	fromColumn: ProposalStateHistory.WorkItemId
+	toColumn: Proposals.WorkItemId
+

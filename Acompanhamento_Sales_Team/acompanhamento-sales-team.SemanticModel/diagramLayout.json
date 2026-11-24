@@ -1,0 +1,100 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 70.4000015258789,
+        "y": 185.60000610351563
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 545.06513950056933,
+            "y": 656.75873499619479
+          },
+          "nodeIndex": "CardFields",
+          "nodeLineageTag": "8b74ed7c-0836-431c-b29c-65afe6f8fd6a",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 165.76472395427334
+          },
+          "nodeIndex": "ProposalDependencyTypes",
+          "nodeLineageTag": "971ac38f-61b9-4867-8e3d-d60c0f34c509",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 335.62829794814348,
+            "y": 303.70239021057188
+          },
+          "nodeIndex": "Proposals",
+          "nodeLineageTag": "751743df-4d98-4cf2-a1db-794a500c6c37",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 458.29409994851324,
+            "y": -50
+          },
+          "nodeIndex": "ProposalStateHistory",
+          "nodeLineageTag": "a0fa5a2c-0feb-48c8-a476-45e3d8c206ee",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 779.06513950056933,
+            "y": 353.37936749809739
+          },
+          "nodeIndex": "ProposalTechnicalLinks",
+          "nodeLineageTag": "1aafedd3-0eee-419c-803a-c38888ddcad6",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1063.0651395005693,
+            "y": 291.37936749809739
+          },
+          "nodeIndex": "TechnicalWorkItems",
+          "nodeLineageTag": "57a268a9-f5d0-4621-84cc-640e4c3da58c",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas as tabelas",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas as tabelas",
+  "defaultDiagram": "Todas as tabelas"
+}

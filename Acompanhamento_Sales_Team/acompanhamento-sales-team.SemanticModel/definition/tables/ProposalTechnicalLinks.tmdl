@@ -1,0 +1,51 @@
+table ProposalTechnicalLinks
+	lineageTag: 1aafedd3-0eee-419c-803a-c38888ddcad6
+
+	column ProposalId
+		dataType: int64
+		formatString: 0
+		lineageTag: e7c38825-8cce-456b-8a39-825a785a4f0e
+		summarizeBy: count
+		sourceColumn: ProposalId
+
+		annotation SummarizationSetBy = Automatic
+
+	column TechnicalWorkItemId
+		dataType: int64
+		formatString: 0
+		lineageTag: a0cd3f14-eae7-4e54-8e0b-757628483177
+		summarizeBy: count
+		sourceColumn: TechnicalWorkItemId
+
+		annotation SummarizationSetBy = Automatic
+
+	column TechnicalWorkItemType
+		dataType: string
+		lineageTag: f4dd784b-81c8-47cd-9a87-034ee302acec
+		summarizeBy: none
+		sourceColumn: TechnicalWorkItemType
+
+		annotation SummarizationSetBy = Automatic
+
+	column LinkType
+		dataType: string
+		lineageTag: 7bd0af73-6d45-4ab4-8e61-d28eeff07070
+		summarizeBy: none
+		sourceColumn: LinkType
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ProposalTechnicalLinks = m
+		mode: import
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"ee4dc9af-9392-4a69-b183-bc4d97f16312" = Workspaces{[workspaceId="ee4dc9af-9392-4a69-b183-bc4d97f16312"]}[Data],
+				    #"a2146cf5-2069-49b7-ac14-5e90241faa15" = #"ee4dc9af-9392-4a69-b183-bc4d97f16312"{[dataflowId="a2146cf5-2069-49b7-ac14-5e90241faa15"]}[Data],
+				    ProposalTechnicalLinks_ = #"a2146cf5-2069-49b7-ac14-5e90241faa15"{[entity="ProposalTechnicalLinks",version=""]}[Data]
+				in
+				    ProposalTechnicalLinks_
+
+	annotation PBI_ResultType = Table
+

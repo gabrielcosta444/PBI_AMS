@@ -1,0 +1,36 @@
+table ProposalDependencyTypes
+	lineageTag: 971ac38f-61b9-4867-8e3d-d60c0f34c509
+
+	column WorkItemId
+		dataType: int64
+		formatString: 0
+		lineageTag: 556d3973-3c50-4607-a886-c4c0a291bbcb
+		summarizeBy: none
+		sourceColumn: WorkItemId
+
+		annotation SummarizationSetBy = Automatic
+
+	column DependencyType
+		dataType: string
+		lineageTag: d9c1a10a-e20e-441d-b040-02766f40d90d
+		summarizeBy: none
+		sourceColumn: DependencyType
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ProposalDependencyTypes = m
+		mode: import
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"ee4dc9af-9392-4a69-b183-bc4d97f16312" = Workspaces{[workspaceId="ee4dc9af-9392-4a69-b183-bc4d97f16312"]}[Data],
+				    #"a2146cf5-2069-49b7-ac14-5e90241faa15" = #"ee4dc9af-9392-4a69-b183-bc4d97f16312"{[dataflowId="a2146cf5-2069-49b7-ac14-5e90241faa15"]}[Data],
+				    ProposalDependencyTypes_ = #"a2146cf5-2069-49b7-ac14-5e90241faa15"{[entity="ProposalDependencyTypes",version=""]}[Data]
+				in
+				    ProposalDependencyTypes_
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

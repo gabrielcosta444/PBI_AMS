@@ -1,0 +1,52 @@
+table CardFields
+	lineageTag: 8b74ed7c-0836-431c-b29c-65afe6f8fd6a
+
+	column WorkItemId
+		dataType: int64
+		formatString: 0
+		lineageTag: 38c5acb6-1859-4e61-9949-970557f40b69
+		summarizeBy: none
+		sourceColumn: WorkItemId
+
+		annotation SummarizationSetBy = Automatic
+
+	column WorkItemType
+		dataType: string
+		lineageTag: e54be605-240f-4827-bc1a-48ee1ad34bc4
+		summarizeBy: none
+		sourceColumn: WorkItemType
+
+		annotation SummarizationSetBy = Automatic
+
+	column FieldName
+		dataType: string
+		lineageTag: d3e34265-24b3-4bb0-928e-18abf7a258ff
+		summarizeBy: none
+		sourceColumn: FieldName
+
+		annotation SummarizationSetBy = Automatic
+
+	column FieldValue
+		dataType: string
+		lineageTag: 25ce96ea-f178-4994-874b-9fe273c27591
+		summarizeBy: none
+		sourceColumn: FieldValue
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CardFields = m
+		mode: import
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"ee4dc9af-9392-4a69-b183-bc4d97f16312" = Workspaces{[workspaceId="ee4dc9af-9392-4a69-b183-bc4d97f16312"]}[Data],
+				    #"a2146cf5-2069-49b7-ac14-5e90241faa15" = #"ee4dc9af-9392-4a69-b183-bc4d97f16312"{[dataflowId="a2146cf5-2069-49b7-ac14-5e90241faa15"]}[Data],
+				    CardFields_ = #"a2146cf5-2069-49b7-ac14-5e90241faa15"{[entity="CardFields",version=""]}[Data]
+				in
+				    CardFields_
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

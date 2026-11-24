@@ -1,0 +1,42 @@
+model Model
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pt-BR
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["CardFields","ProposalDependencyTypes","Proposals","ProposalStateHistory","ProposalTechnicalLinks","TechnicalWorkItems"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table CardFields
+ref table ProposalDependencyTypes
+ref table Proposals
+ref table DateTableTemplate_724c8e99-7425-4c8e-8451-4253d6b74f3b
+ref table LocalDateTable_a7bbd038-b8c8-42e1-9e9d-060143fe8989
+ref table LocalDateTable_737857d4-44f8-400f-b5fe-438a277a18d9
+ref table LocalDateTable_c5efefc7-7dc7-4bf7-9da2-5259834690ca
+ref table LocalDateTable_678403cf-25e9-4246-9bc3-36506463c387
+ref table LocalDateTable_ff9759e8-d747-490d-9023-29d413ad77e5
+ref table LocalDateTable_45d499df-817a-4bd8-964e-e3a08bfa0fd6
+ref table LocalDateTable_8d2541df-0bbb-460b-b64e-ba4367a57ee5
+ref table ProposalStateHistory
+ref table LocalDateTable_4399f1cc-662f-4060-a777-c8e2ae4f95c2
+ref table LocalDateTable_1cb36d90-2f8b-4a2c-b57a-08aa2674c32e
+ref table LocalDateTable_0df0fb24-64e4-457f-8a88-b681331d073e
+ref table ProposalTechnicalLinks
+ref table TechnicalWorkItems
+ref table LocalDateTable_efc006ef-4fe8-4243-ab63-3e2dafae189d
+ref table LocalDateTable_712b5ee9-ac99-47cf-8bd3-34f6770ebaf9
+ref table LocalDateTable_5d0ef430-5fe4-4e13-81c3-41436171f610
+ref table LocalDateTable_7cf04cac-6380-4c85-837b-b9ae90d2dda6
+ref table LocalDateTable_67970e03-1e6a-403a-961f-6454094d6ad2
+ref table LocalDateTable_cb61205c-6fcb-4d93-bc6e-1211a80cf6bd
+ref table LocalDateTable_7103621b-df1e-4a37-9984-937b67d3634c
+
+ref cultureInfo pt-BR
+
