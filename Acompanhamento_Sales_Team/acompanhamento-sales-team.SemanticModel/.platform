@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "acompanhamento-sales-team"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "173db39f-69f5-47ef-a1f6-6a1a4d4a7e84"
+  }
+}
