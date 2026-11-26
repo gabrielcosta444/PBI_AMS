@@ -1,0 +1,16 @@
+table _Medidas
+	lineageTag: 35802db6-655e-4181-9a5a-2440df643336
+
+	column Placeholder
+		dataType: string
+		isHidden
+		lineageTag: 4ca94cc2-280c-4bbf-b2f8-af4505874d80
+		summarizeBy: none
+		sourceColumn: [Placeholder]
+
+		annotation SummarizationSetBy = User
+
+	partition _Medidas = calculated
+		mode: import
+		source = DATATABLE("Placeholder", STRING, {{""}})
+

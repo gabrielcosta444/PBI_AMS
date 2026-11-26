@@ -1,4 +1,5 @@
 table CardFields
+	isHidden
 	lineageTag: 8b74ed7c-0836-431c-b29c-65afe6f8fd6a
 
 	column WorkItemId

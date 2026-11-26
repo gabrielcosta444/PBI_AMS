@@ -3,6 +3,7 @@ table Proposals
 
 	column WorkItemId
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 8488ce3b-d6a7-4cfa-88a9-d6184cfd19e5
 		summarizeBy: none
@@ -12,6 +13,7 @@ table Proposals
 
 	column Title
 		dataType: string
+		displayFolder: 'Visão Geral'
 		lineageTag: c1283f83-7d10-484b-9de7-6907166a5ae4
 		summarizeBy: none
 		sourceColumn: Title
@@ -20,6 +22,7 @@ table Proposals
 
 	column WorkItemType
 		dataType: string
+		displayFolder: 'Visão Geral'
 		lineageTag: cbe4b07a-47cd-44d2-8367-14ef89a7a354
 		summarizeBy: none
 		sourceColumn: WorkItemType
@@ -28,6 +31,7 @@ table Proposals
 
 	column State
 		dataType: string
+		displayFolder: 'Visão Geral'
 		lineageTag: f69bb2a6-8a6e-4050-877d-49b51dfb4a20
 		summarizeBy: none
 		sourceColumn: State
@@ -37,84 +41,60 @@ table Proposals
 	column CreatedDate
 		dataType: dateTime
 		formatString: General Date
+		displayFolder: Datas
 		lineageTag: 977ccfab-1712-4fa9-92f7-1ebbf8f95139
 		summarizeBy: none
 		sourceColumn: CreatedDate
-
-		variation Variation
-			isDefault
-			relationship: e2f94697-7b2f-404b-af49-815e3eab2207
-			defaultHierarchy: LocalDateTable_a7bbd038-b8c8-42e1-9e9d-060143fe8989.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
 	column ChangedDate
 		dataType: dateTime
 		formatString: General Date
+		displayFolder: Datas
 		lineageTag: 8794979a-41dc-4d57-bd14-18bde3457331
 		summarizeBy: none
 		sourceColumn: ChangedDate
-
-		variation Variation
-			isDefault
-			relationship: ffc6cf52-5947-403e-a012-b57440e6499f
-			defaultHierarchy: LocalDateTable_737857d4-44f8-400f-b5fe-438a277a18d9.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
 	column ClosedDate
 		dataType: dateTime
 		formatString: General Date
+		displayFolder: Datas
 		lineageTag: dee45aac-abe5-4eea-9ad1-ed629bf9e6df
 		summarizeBy: none
 		sourceColumn: ClosedDate
-
-		variation Variation
-			isDefault
-			relationship: 39e26b91-3c37-4264-abdc-c5b21ff53c16
-			defaultHierarchy: LocalDateTable_c5efefc7-7dc7-4bf7-9da2-5259834690ca.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
 	column StateChangeDate
 		dataType: dateTime
 		formatString: General Date
+		displayFolder: Datas
 		lineageTag: 9368dfc4-8cdd-4847-9285-47335d454fc6
 		summarizeBy: none
 		sourceColumn: StateChangeDate
-
-		variation Variation
-			isDefault
-			relationship: b9568272-9831-489b-b30e-92c033d9a03c
-			defaultHierarchy: LocalDateTable_678403cf-25e9-4246-9bc3-36506463c387.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
 	column StartDate
 		dataType: dateTime
 		formatString: General Date
+		displayFolder: Datas
 		lineageTag: a2567ae5-d097-45a0-a515-2072570a4b51
 		summarizeBy: none
 		sourceColumn: StartDate
-
-		variation Variation
-			isDefault
-			relationship: 1e64f1a2-0c71-47c9-84ae-8493d17c9b6b
-			defaultHierarchy: LocalDateTable_ff9759e8-d747-490d-9023-29d413ad77e5.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
 	column TargetDate
 		dataType: dateTime
 		formatString: General Date
+		displayFolder: Datas
 		lineageTag: 3373f30a-56ff-4335-8835-5d0db40614fb
 		summarizeBy: none
 		sourceColumn: TargetDate
-
-		variation Variation
-			isDefault
-			relationship: d3950fd2-086f-411d-9a36-de75807a43da
-			defaultHierarchy: LocalDateTable_45d499df-817a-4bd8-964e-e3a08bfa0fd6.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -148,6 +128,7 @@ table Proposals
 
 	column AMSClient
 		dataType: string
+		displayFolder: 'Perfil Comercial'
 		lineageTag: 1c2c3bc5-999c-4192-a57f-0220ad3495cb
 		summarizeBy: none
 		sourceColumn: AMSClient
@@ -157,20 +138,17 @@ table Proposals
 	column ApprovalDate
 		dataType: dateTime
 		formatString: General Date
+		displayFolder: Datas
 		lineageTag: d456d733-8ad2-46c5-bd4d-0b928f79b740
 		summarizeBy: none
 		sourceColumn: ApprovalDate
-
-		variation Variation
-			isDefault
-			relationship: da77c8fa-fac4-4a61-b57d-23b0b9db3d4e
-			defaultHierarchy: LocalDateTable_8d2541df-0bbb-460b-b64e-ba4367a57ee5.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
 	column Discarded
 		dataType: boolean
 		formatString: """TRUE"";""TRUE"";""FALSE"""
+		displayFolder: Desfecho
 		lineageTag: 28036058-d382-48eb-9cdf-9f0c237a3027
 		summarizeBy: none
 		sourceColumn: Discarded
@@ -179,6 +157,7 @@ table Proposals
 
 	column ReasonforDiscarded
 		dataType: string
+		displayFolder: Desfecho
 		lineageTag: e0f059cf-32e8-4f2b-ba13-5ee34875345e
 		summarizeBy: none
 		sourceColumn: ReasonforDiscarded
@@ -187,6 +166,8 @@ table Proposals
 
 	column InvoiceAmount
 		dataType: double
+		formatString: #,0.00;(#,0.00);-
+		displayFolder: Valores
 		lineageTag: 0bcf936d-2d4d-43d2-bed1-f763195e2935
 		summarizeBy: sum
 		sourceColumn: InvoiceAmount
@@ -197,6 +178,7 @@ table Proposals
 
 	column CurrencyType
 		dataType: string
+		displayFolder: Valores
 		lineageTag: af396112-bb30-46d4-9f81-6599fee05a91
 		summarizeBy: none
 		sourceColumn: CurrencyType
@@ -205,6 +187,8 @@ table Proposals
 
 	column DepartmentProjectAmount
 		dataType: double
+		formatString: #,0.00;(#,0.00);-
+		displayFolder: Valores
 		lineageTag: cda7d593-b352-447f-883e-81bb9b7e6637
 		summarizeBy: sum
 		sourceColumn: DepartmentProjectAmount
@@ -215,6 +199,7 @@ table Proposals
 
 	column ProjectWorkTypes
 		dataType: string
+		displayFolder: 'Perfil Comercial'
 		lineageTag: 93c6e46a-9260-4e49-aeec-3a6e552ef793
 		summarizeBy: none
 		sourceColumn: ProjectWorkTypes
@@ -223,6 +208,7 @@ table Proposals
 
 	column ProjectType
 		dataType: string
+		displayFolder: 'Perfil Comercial'
 		lineageTag: 27cfbe19-b26c-4245-99f9-e35c6ff07bdf
 		summarizeBy: none
 		sourceColumn: ProjectType
@@ -232,6 +218,7 @@ table Proposals
 	column Blocked
 		dataType: boolean
 		formatString: """TRUE"";""TRUE"";""FALSE"""
+		displayFolder: 'Carteira e Gargalos'
 		lineageTag: 541e2fb8-b7d2-4712-aee2-ebae0048e17f
 		summarizeBy: none
 		sourceColumn: Blocked
@@ -240,6 +227,7 @@ table Proposals
 
 	column BlockedReason
 		dataType: string
+		displayFolder: 'Carteira e Gargalos'
 		lineageTag: c7a63cff-2d25-4de6-a4e8-edd594a651dc
 		summarizeBy: none
 		sourceColumn: BlockedReason
@@ -248,6 +236,7 @@ table Proposals
 
 	column DependencyType
 		dataType: string
+		isHidden
 		lineageTag: 70c17aab-6e28-4880-b065-191153dbf28d
 		summarizeBy: none
 		sourceColumn: DependencyType
@@ -256,6 +245,7 @@ table Proposals
 
 	column DependencyDetail
 		dataType: string
+		isHidden
 		lineageTag: d8e6d4e3-aa36-4163-8dd4-8b3ae3a67c51
 		summarizeBy: none
 		sourceColumn: DependencyDetail
@@ -274,6 +264,7 @@ table Proposals
 	column AtLeastOneBlock
 		dataType: boolean
 		formatString: """TRUE"";""TRUE"";""FALSE"""
+		displayFolder: 'Carteira e Gargalos'
 		lineageTag: bf867229-2084-4652-8699-e55d9e4ca86e
 		summarizeBy: none
 		sourceColumn: AtLeastOneBlock
@@ -283,6 +274,7 @@ table Proposals
 	column BlockedTimeInMinutes
 		dataType: int64
 		formatString: 0
+		displayFolder: 'Carteira e Gargalos'
 		lineageTag: 57f6f3e3-6156-4fd9-af5e-b87c0c415bdd
 		summarizeBy: sum
 		sourceColumn: BlockedTimeInMinutes
@@ -341,11 +333,21 @@ table Proposals
 
 	column AllFieldsJson
 		dataType: string
+		isHidden
 		lineageTag: 854620d7-fdee-4d5f-ba55-031b79c5a4bb
 		summarizeBy: none
 		sourceColumn: AllFieldsJson
 
 		annotation SummarizationSetBy = Automatic
+
+	column OrdemState = SWITCH([State], "New", 1, "Next", 2, "Triage", 3, "Planning", 4, "Build", 5, "Approval", 6, "Closed", 7, 99)
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 3db75a45-8a19-440f-8f0e-703899b42df4
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
 
 	partition Proposals = m
 		mode: import

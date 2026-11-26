@@ -3,6 +3,7 @@ table ProposalStateHistory
 
 	column WorkItemId
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: df10ea7b-2fd2-40e8-8ea6-c5c2d6d37511
 		summarizeBy: none
@@ -20,6 +21,7 @@ table ProposalStateHistory
 
 	column State
 		dataType: string
+		displayFolder: 'Funil e Histórico'
 		lineageTag: ef61688d-1a72-44a4-ab8b-6677714c939b
 		summarizeBy: none
 		sourceColumn: State
@@ -28,6 +30,7 @@ table ProposalStateHistory
 
 	column PreviousState
 		dataType: string
+		displayFolder: 'Funil e Histórico'
 		lineageTag: 0aff992a-d1c4-4770-ba1a-7c05b4a691e4
 		summarizeBy: none
 		sourceColumn: PreviousState
@@ -36,6 +39,7 @@ table ProposalStateHistory
 
 	column NextState
 		dataType: string
+		displayFolder: 'Funil e Histórico'
 		lineageTag: 2ccd629c-1f4c-47fb-b4a8-a87e157ff793
 		summarizeBy: none
 		sourceColumn: NextState
@@ -44,6 +48,7 @@ table ProposalStateHistory
 
 	column EntryRevision
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 27d73b41-f30f-4b13-a55e-2c839261785b
 		summarizeBy: sum
@@ -54,28 +59,20 @@ table ProposalStateHistory
 	column DataEntrada
 		dataType: dateTime
 		formatString: General Date
+		displayFolder: 'Funil e Histórico\Datas'
 		lineageTag: 85335205-2421-43ab-a852-830b66910748
 		summarizeBy: none
 		sourceColumn: DataEntrada
-
-		variation Variation
-			isDefault
-			relationship: 300900df-aa78-4a68-93b2-26d4a0c6b2ba
-			defaultHierarchy: LocalDateTable_4399f1cc-662f-4060-a777-c8e2ae4f95c2.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
 	column DataSaida
 		dataType: dateTime
 		formatString: General Date
+		displayFolder: 'Funil e Histórico\Datas'
 		lineageTag: 70381e80-7964-4978-a7bc-0c01d3e19642
 		summarizeBy: none
 		sourceColumn: DataSaida
-
-		variation Variation
-			isDefault
-			relationship: 982d29ca-2c56-4b94-9fcb-e734d4959a79
-			defaultHierarchy: LocalDateTable_1cb36d90-2f8b-4a2c-b57a-08aa2674c32e.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -91,14 +88,10 @@ table ProposalStateHistory
 	column DataReferencia
 		dataType: dateTime
 		formatString: General Date
+		displayFolder: 'Funil e Histórico\Datas'
 		lineageTag: 2f334b4e-2824-42f9-9e80-aaa36d8dbef9
 		summarizeBy: none
 		sourceColumn: DataReferencia
-
-		variation Variation
-			isDefault
-			relationship: 3e39d261-153c-483e-bf75-2914bede496a
-			defaultHierarchy: LocalDateTable_0df0fb24-64e4-457f-8a88-b681331d073e.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 

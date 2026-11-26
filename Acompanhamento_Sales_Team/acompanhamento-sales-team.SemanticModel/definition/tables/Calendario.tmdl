@@ -1,0 +1,117 @@
+table Calendario
+	lineageTag: bde541d3-8d1b-4a35-9fad-8432f0607468
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: Short Date
+		lineageTag: 2b472719-ed5f-455b-a731-4d74859c3b45
+		dataCategory: PaddedDateTableDates
+		summarizeBy: none
+		sourceColumn: [Date]
+
+		annotation SummarizationSetBy = User
+
+	column Ano = YEAR([Date])
+		dataType: int64
+		formatString: 0
+		lineageTag: 0403cc41-79b3-4b17-8695-36ac98a9be7f
+		dataCategory: Years
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
+	column NumeroMes = MONTH([Date])
+		dataType: int64
+		formatString: 0
+		lineageTag: b1f15281-3c8f-4efb-99af-f3c34fd0b7bf
+		dataCategory: MonthOfYear
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
+	column Mes = FORMAT([Date], "MMMM")
+		dataType: string
+		lineageTag: 687449b5-09cd-471c-8c15-a4934ce3a17d
+		dataCategory: Months
+		summarizeBy: none
+		sortByColumn: NumeroMes
+
+		annotation SummarizationSetBy = User
+
+	column AnoMes = FORMAT([Date], "yyyy-MM")
+		dataType: string
+		lineageTag: 5eb58341-7f4b-4bcc-95c7-7fb01760f80b
+		summarizeBy: none
+		sortByColumn: AnoMesOrdem
+
+		annotation SummarizationSetBy = User
+
+	column AnoMesOrdem = [Ano] * 100 + [NumeroMes]
+		dataType: int64
+		formatString: 0
+		lineageTag: d31e74ca-7fb9-4221-9de0-6a75120b4198
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
+	column Trimestre = "T" & ROUNDUP(DIVIDE([NumeroMes], 3), 0)
+		dataType: string
+		lineageTag: 57b54202-a36e-48c5-8b01-e9421e893bb1
+		dataCategory: Quarters
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
+	hierarchy 'Hierarquia de datas'
+		lineageTag: 87ec26de-ece8-4fcb-b853-2a4b1a8e4e8d
+
+		level Ano
+			lineageTag: db569e85-d401-430a-8e60-88e62e4b15c4
+			column: Ano
+
+		level Trimestre
+			lineageTag: 6beb9a0a-93a4-4e7b-895d-678440e172ba
+			column: Trimestre
+
+		level Mes
+			lineageTag: 721b6f30-7c0d-40bb-9b15-fef57452b4cf
+			column: Mes
+
+		level Date
+			lineageTag: a8fa9f38-37c2-42ea-b263-d4232dc6e4ba
+			column: Date
+
+	partition Calendario = calculated
+		mode: import
+		source =
+				VAR Datas =
+					UNION(
+						SELECTCOLUMNS('Proposals', "Data", 'Proposals'[CreatedDate]),
+						SELECTCOLUMNS('Proposals', "Data", 'Proposals'[ChangedDate]),
+						SELECTCOLUMNS('Proposals', "Data", 'Proposals'[ClosedDate]),
+						SELECTCOLUMNS('Proposals', "Data", 'Proposals'[StateChangeDate]),
+						SELECTCOLUMNS('Proposals', "Data", 'Proposals'[StartDate]),
+						SELECTCOLUMNS('Proposals', "Data", 'Proposals'[TargetDate]),
+						SELECTCOLUMNS('Proposals', "Data", 'Proposals'[ApprovalDate]),
+						SELECTCOLUMNS('ProposalStateHistory', "Data", 'ProposalStateHistory'[DataEntrada]),
+						SELECTCOLUMNS('ProposalStateHistory', "Data", 'ProposalStateHistory'[DataSaida]),
+						SELECTCOLUMNS('ProposalStateHistory', "Data", 'ProposalStateHistory'[DataReferencia]),
+						SELECTCOLUMNS('TechnicalWorkItems', "Data", 'TechnicalWorkItems'[CreatedDate]),
+						SELECTCOLUMNS('TechnicalWorkItems', "Data", 'TechnicalWorkItems'[ChangedDate]),
+						SELECTCOLUMNS('TechnicalWorkItems', "Data", 'TechnicalWorkItems'[ClosedDate]),
+						SELECTCOLUMNS('TechnicalWorkItems', "Data", 'TechnicalWorkItems'[StateChangeDate]),
+						SELECTCOLUMNS('TechnicalWorkItems', "Data", 'TechnicalWorkItems'[StartDate]),
+						SELECTCOLUMNS('TechnicalWorkItems', "Data", 'TechnicalWorkItems'[TargetDate]),
+						SELECTCOLUMNS('TechnicalWorkItems', "Data", 'TechnicalWorkItems'[ApprovalDate])
+					)
+				VAR DataInicial = MINX(FILTER(Datas, NOT ISBLANK([Data])), [Data])
+				VAR DataFinalOrigem = MAXX(FILTER(Datas, NOT ISBLANK([Data])), [Data])
+				RETURN
+					CALENDAR(
+						DATE(YEAR(DataInicial), 1, 1),
+						MAX(DATE(YEAR(TODAY()) + 1, 12, 31), DATE(YEAR(DataFinalOrigem), 12, 31))
+					)
+
+	annotation __PBI_DateTable = true
+

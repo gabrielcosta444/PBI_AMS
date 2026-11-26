@@ -4,8 +4,8 @@
     {
       "ordinal": 0,
       "scrollPosition": {
-        "x": 70,
-        "y": 186
+        "x": 298,
+        "y": 77
       },
       "nodes": [
         {
@@ -80,6 +80,32 @@
           },
           "nodeIndex": "TechnicalWorkItems",
           "nodeLineageTag": "57a268a9-f5d0-4621-84cc-640e4c3da58c",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1297.0651395005693,
+            "y": 341.37936749809739
+          },
+          "nodeIndex": "_Medidas",
+          "nodeLineageTag": "35802db6-655e-4181-9a5a-2440df643336",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1581.0651395005693,
+            "y": 291.37936749809739
+          },
+          "nodeIndex": "Calendario",
+          "nodeLineageTag": "bde541d3-8d1b-4a35-9fad-8432f0607468",
           "size": {
             "height": 300,
             "width": 234

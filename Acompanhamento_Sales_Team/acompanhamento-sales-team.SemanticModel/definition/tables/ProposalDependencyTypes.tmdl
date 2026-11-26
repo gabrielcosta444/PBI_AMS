@@ -3,6 +3,7 @@ table ProposalDependencyTypes
 
 	column WorkItemId
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 556d3973-3c50-4607-a886-c4c0a291bbcb
 		summarizeBy: none
@@ -12,6 +13,7 @@ table ProposalDependencyTypes
 
 	column DependencyType
 		dataType: string
+		displayFolder: 'Carteira e Gargalos'
 		lineageTag: d9c1a10a-e20e-441d-b040-02766f40d90d
 		summarizeBy: none
 		sourceColumn: DependencyType

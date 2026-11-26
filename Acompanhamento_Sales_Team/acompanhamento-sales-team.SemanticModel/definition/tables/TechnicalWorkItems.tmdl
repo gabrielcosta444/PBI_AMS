@@ -3,6 +3,7 @@ table TechnicalWorkItems
 
 	column WorkItemId
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: b30ac805-8274-4aee-bc08-69cc3585361e
 		summarizeBy: count
@@ -12,6 +13,7 @@ table TechnicalWorkItems
 
 	column Title
 		dataType: string
+		displayFolder: 'Torres Técnicas'
 		lineageTag: d09c24ba-6f72-4cc6-8bc0-40adeec235d3
 		summarizeBy: none
 		sourceColumn: Title
@@ -20,6 +22,7 @@ table TechnicalWorkItems
 
 	column WorkItemType
 		dataType: string
+		displayFolder: 'Torres Técnicas'
 		lineageTag: 963bea66-05b5-462c-a2e9-0f5e6a043d46
 		summarizeBy: none
 		sourceColumn: WorkItemType
@@ -28,6 +31,7 @@ table TechnicalWorkItems
 
 	column State
 		dataType: string
+		displayFolder: 'Torres Técnicas'
 		lineageTag: 6eef9232-8835-463f-8d3c-159f98d84849
 		summarizeBy: none
 		sourceColumn: State
@@ -41,11 +45,6 @@ table TechnicalWorkItems
 		summarizeBy: none
 		sourceColumn: CreatedDate
 
-		variation Variation
-			isDefault
-			relationship: fac7d1c6-0ace-4634-af77-ba1657e6289b
-			defaultHierarchy: LocalDateTable_efc006ef-4fe8-4243-ab63-3e2dafae189d.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 	column ChangedDate
@@ -54,11 +53,6 @@ table TechnicalWorkItems
 		lineageTag: 66346c28-7731-4988-a08a-66e03aa0d608
 		summarizeBy: none
 		sourceColumn: ChangedDate
-
-		variation Variation
-			isDefault
-			relationship: b14ffdf4-037c-4457-8c70-ca098fd010e8
-			defaultHierarchy: LocalDateTable_712b5ee9-ac99-47cf-8bd3-34f6770ebaf9.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -69,11 +63,6 @@ table TechnicalWorkItems
 		summarizeBy: none
 		sourceColumn: ClosedDate
 
-		variation Variation
-			isDefault
-			relationship: 8cabc251-5b94-494b-997d-ef9e2db2cff0
-			defaultHierarchy: LocalDateTable_5d0ef430-5fe4-4e13-81c3-41436171f610.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 	column StateChangeDate
@@ -82,11 +71,6 @@ table TechnicalWorkItems
 		lineageTag: 1a8ddd36-a6c6-4be2-ad47-37490548f2cb
 		summarizeBy: none
 		sourceColumn: StateChangeDate
-
-		variation Variation
-			isDefault
-			relationship: 33a1b711-a5fc-46d3-837d-141879e7a630
-			defaultHierarchy: LocalDateTable_7cf04cac-6380-4c85-837b-b9ae90d2dda6.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -97,11 +81,6 @@ table TechnicalWorkItems
 		summarizeBy: none
 		sourceColumn: StartDate
 
-		variation Variation
-			isDefault
-			relationship: a58d2bbc-238d-42a8-aa2c-f649a4a285ac
-			defaultHierarchy: LocalDateTable_67970e03-1e6a-403a-961f-6454094d6ad2.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 	column TargetDate
@@ -110,11 +89,6 @@ table TechnicalWorkItems
 		lineageTag: 950362a3-e6c6-4525-9101-4021626c700c
 		summarizeBy: none
 		sourceColumn: TargetDate
-
-		variation Variation
-			isDefault
-			relationship: 0c032216-c710-4fa7-88a7-0b9a813c6ca3
-			defaultHierarchy: LocalDateTable_cb61205c-6fcb-4d93-bc6e-1211a80cf6bd.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -160,11 +134,6 @@ table TechnicalWorkItems
 		lineageTag: ea3bca5c-d865-4f94-93a1-7c96592e1029
 		summarizeBy: none
 		sourceColumn: ApprovalDate
-
-		variation Variation
-			isDefault
-			relationship: 7658cf0f-b0fc-420f-b945-c4390ba85e70
-			defaultHierarchy: LocalDateTable_7103621b-df1e-4a37-9984-937b67d3634c.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -215,6 +184,7 @@ table TechnicalWorkItems
 
 	column ProjectWorkTypes
 		dataType: string
+		displayFolder: 'Torres Técnicas'
 		lineageTag: 16baa0ad-82b8-47f0-b9c0-62dfcbb47699
 		summarizeBy: none
 		sourceColumn: ProjectWorkTypes
@@ -341,6 +311,7 @@ table TechnicalWorkItems
 
 	column AllFieldsJson
 		dataType: string
+		isHidden
 		lineageTag: aef3db60-1b49-4a60-b615-f8b2f6730d57
 		summarizeBy: none
 		sourceColumn: AllFieldsJson
