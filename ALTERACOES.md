@@ -1,8 +1,21 @@
-# Alterações — Entrega 01.1
+# Alterações — Entrega 02
 
-- Corrigida `Solicitações recebidas`: exclui `Duplicate Proposal` e `Incorrect Demand Creation`.
-- Corrigida `Propostas recusadas`: exclui esses dois motivos administrativos e `Transferred to Support Team`.
-- Acrescentado `KEEPFILTERS` para preservar possíveis filtros existentes em `ReasonforDiscarded`.
-- Acrescentadas duas medidas de validação para transparência das exclusões.
-- Mantidas, sem modificação, todas as outras medidas DAX e os componentes do projeto.
-- Nenhum arquivo precisa ser deletado.
+## Substituir
+
+`Acompanhamento_Sales_Team/acompanhamento-sales-team.SemanticModel/definition/tables/_Medidas.tmdl`
+
+## Medidas adicionadas (5)
+
+- `Carteira atual` — contagem de propostas atualmente abertas, sem filtro temporal.
+- `Carteira atual (% por State)` — participação percentual no total da carteira atual.
+- `Taxa de recusa` — métrica complementar de resultado por responsável.
+- `Recusas com motivo informado` — quantidade para o gráfico de motivos.
+- `Validação - recusas sem motivo` — indicador de qualidade de dados.
+
+## Preservado
+
+As 10 medidas da Entrega 01.1 foram mantidas **sem nenhuma modificação**, incluindo os critérios para `Duplicate Proposal`, `Incorrect Demand Creation` e `Transferred to Support Team`.
+
+## Exclusões: nenhuma
+
+## Novos arquivos no projeto: nenhum

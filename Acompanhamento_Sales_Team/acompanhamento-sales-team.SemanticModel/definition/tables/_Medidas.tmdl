@@ -196,6 +196,83 @@ table _Medidas
 		formatString: #,0
 		displayFolder: Validação
 
+
+	/// Quantidade atual de propostas em States nao fechados; independe do periodo, mas respeita os demais filtros.
+	measure 'Carteira atual' =
+			COALESCE(
+			    CALCULATE(
+			        DISTINCTCOUNT('Proposals'[WorkItemId]),
+			        KEEPFILTERS('Proposals'[WorkItemType] = "Proposal"),
+			        KEEPFILTERS('Proposals'[State] <> "Closed"),
+			        KEEPFILTERS(NOT ISBLANK('Proposals'[State])),
+			        KEEPFILTERS(
+			            NOT (
+			                'Proposals'[ReasonforDiscarded] IN {
+			                    "Duplicate Proposal",
+			                    "Incorrect Demand Creation"
+			                }
+			            )
+			        ),
+			        REMOVEFILTERS('Calendario')
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: 'Visão Geral\Gráficos'
+
+	/// Participacao do State na carteira aberta. Use como tooltip da carteira atual por State.
+	measure 'Carteira atual (% por State)' =
+			DIVIDE(
+			    [Carteira atual],
+			    CALCULATE(
+			        [Carteira atual],
+			        REMOVEFILTERS('Proposals'[State])
+			    )
+			)
+		formatString: 0.0%
+		displayFolder: 'Visão Geral\Gráficos'
+
+	/// Percentual de recusas dentre as decisoes comerciais; pode ser exibido no tooltip por responsavel.
+	measure 'Taxa de recusa' =
+			DIVIDE(
+			    [Propostas recusadas],
+			    [Decisões comerciais]
+			)
+		formatString: 0.0%
+		displayFolder: 'Visão Geral\Gráficos'
+
+	/// Recusas comerciais com ReasonforDiscarded preenchido (sem nulos, vazios ou so espacos).
+	/// As exclusoes administrativas e o periodo de fechamento ja estao na medida base Propostas recusadas.
+	measure 'Recusas com motivo informado' =
+			CALCULATE(
+			    [Propostas recusadas],
+			    KEEPFILTERS(
+			        FILTER(
+			            VALUES('Proposals'[ReasonforDiscarded]),
+			            LEN(TRIM('Proposals'[ReasonforDiscarded] & "")) > 0
+			        )
+			    )
+			)
+		formatString: #,0
+		displayFolder: 'Visão Geral\Gráficos'
+
+	/// Recusas comerciais sem motivo informado no contexto atual; nao devem aparecer no grafico de motivos.
+	measure 'Validação - recusas sem motivo' =
+			COALESCE(
+			    CALCULATE(
+			        [Propostas recusadas],
+			        KEEPFILTERS(
+			            FILTER(
+			                VALUES('Proposals'[ReasonforDiscarded]),
+			                LEN(TRIM('Proposals'[ReasonforDiscarded] & "")) = 0
+			            )
+			        )
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: Validação
+
 	partition _Medidas = calculated
 		mode: import
 		source = DATATABLE("Placeholder", STRING, {{""}})
