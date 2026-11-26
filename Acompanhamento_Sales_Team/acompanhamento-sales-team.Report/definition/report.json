@@ -37,6 +37,17 @@
           "type": "BaseTheme"
         }
       ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "ams_visao_geral_layout202611260901.png",
+          "path": "ams_visao_geral_layout202611260901.png",
+          "type": "Image"
+        }
+      ]
     }
   ],
   "settings": {
