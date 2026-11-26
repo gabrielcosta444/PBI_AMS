@@ -1,15 +1,6 @@
 table _Medidas
 	lineageTag: 35802db6-655e-4181-9a5a-2440df643336
 
-	column Placeholder
-		dataType: string
-		isHidden
-		lineageTag: 4ca94cc2-280c-4bbf-b2f8-af4505874d80
-		summarizeBy: none
-		sourceColumn: [Placeholder]
-
-		annotation SummarizationSetBy = User
-
 	/// Solicitacoes criadas no periodo; desconsidera propostas duplicadas ou demandas criadas incorretamente.
 	measure 'Solicitações recebidas' =
 			COALESCE(
@@ -29,6 +20,7 @@ table _Medidas
 			)
 		formatString: #,0
 		displayFolder: Visão Geral
+		lineageTag: b527080e-61da-4335-a707-77cb776fa7e7
 
 	/// Primeira entrada da proposta em Approval no intervalo do calendario.
 	measure 'Propostas submetidas' =
@@ -65,6 +57,7 @@ table _Medidas
 			    )
 		formatString: #,0
 		displayFolder: Visão Geral
+		lineageTag: d30cc91f-0017-4f1c-a833-db9f774f3664
 
 	/// Closed e Discarded igual a FALSE, considerando ClosedDate.
 	measure 'Propostas aceitas' =
@@ -88,6 +81,7 @@ table _Medidas
 			)
 		formatString: #,0
 		displayFolder: Visão Geral
+		lineageTag: 05c5969d-5843-46fc-a2da-ad2712e5be6a
 
 	/// Closed, Discarded=TRUE e ClosedDate no periodo; nao conta duplicidades, criacoes indevidas nem transferencias ao suporte.
 	measure 'Propostas recusadas' =
@@ -120,12 +114,13 @@ table _Medidas
 			)
 		formatString: #,0
 		displayFolder: Visão Geral
+		lineageTag: f802f2ef-014d-4a36-97dc-494a8d4a5688
 
 	/// Denominador da taxa de aceite.
-	measure 'Decisões comerciais' =
-			[Propostas aceitas] + [Propostas recusadas]
+	measure 'Decisões comerciais' = [Propostas aceitas] + [Propostas recusadas]
 		formatString: #,0
 		displayFolder: Visão Geral
+		lineageTag: 40caa719-caf5-4210-9d38-8df7907461f2
 
 	/// Aceitas divididas pelas decisoes comerciais. Em branco sem decisoes.
 	measure 'Taxa de aceite' =
@@ -135,6 +130,7 @@ table _Medidas
 			)
 		formatString: 0.0%
 		displayFolder: Visão Geral
+		lineageTag: 58d4f126-1a12-44d9-8b10-eea972405f01
 
 	/// Closed e Discarded vazio, independentemente do periodo.
 	measure 'Validação - fechadas sem classificação' =
@@ -149,6 +145,7 @@ table _Medidas
 			)
 		formatString: #,0
 		displayFolder: Validação
+		lineageTag: 3d2b5f97-b586-4a76-9d9b-ec0255ae0d5f
 
 	/// Closed e ClosedDate vazio, independentemente do periodo.
 	measure 'Validação - fechadas sem data' =
@@ -163,6 +160,7 @@ table _Medidas
 			)
 		formatString: #,0
 		displayFolder: Validação
+		lineageTag: fc048e7b-b3eb-4a4b-8e37-790061f0e55e
 
 	/// Contagem historica das solicitacoes administrativas removidas de Recebidas.
 	measure 'Validação - solicitações administrativas' =
@@ -195,7 +193,6 @@ table _Medidas
 			)
 		formatString: #,0
 		displayFolder: Validação
-
 
 	/// Quantidade atual de propostas em States nao fechados; independe do periodo, mas respeita os demais filtros.
 	measure 'Carteira atual' =
@@ -273,6 +270,16 @@ table _Medidas
 		formatString: #,0
 		displayFolder: Validação
 
+	column Placeholder
+		dataType: string
+		isHidden
+		lineageTag: 4ca94cc2-280c-4bbf-b2f8-af4505874d80
+		summarizeBy: none
+		sourceColumn: [Placeholder]
+
+		annotation SummarizationSetBy = User
+
 	partition _Medidas = calculated
 		mode: import
 		source = DATATABLE("Placeholder", STRING, {{""}})
+
