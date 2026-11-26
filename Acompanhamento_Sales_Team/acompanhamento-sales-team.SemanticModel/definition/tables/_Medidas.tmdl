@@ -10,7 +10,192 @@ table _Medidas
 
 		annotation SummarizationSetBy = User
 
+	/// Solicitacoes criadas no periodo; desconsidera propostas duplicadas ou demandas criadas incorretamente.
+	measure 'Solicitações recebidas' =
+			COALESCE(
+			    CALCULATE(
+			        DISTINCTCOUNT('Proposals'[WorkItemId]),
+			        'Proposals'[WorkItemType] = "Proposal",
+			        KEEPFILTERS(
+			            NOT (
+			                'Proposals'[ReasonforDiscarded] IN {
+			                    "Duplicate Proposal",
+			                    "Incorrect Demand Creation"
+			                }
+			            )
+			        )
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: Visão Geral
+
+	/// Primeira entrada da proposta em Approval no intervalo do calendario.
+	measure 'Propostas submetidas' =
+			VAR DatasSelecionadas = VALUES('Calendario'[Date])
+			RETURN
+			    COALESCE(
+			        CALCULATE(
+			            COUNTROWS(
+			                FILTER(
+			                    SUMMARIZE(
+			                        FILTER(
+			                            'ProposalStateHistory',
+			                            'ProposalStateHistory'[State] = "Approval"
+			                        ),
+			                        'ProposalStateHistory'[WorkItemId],
+			                        "@PrimeiraEntrada",
+			                        MIN('ProposalStateHistory'[DataEntrada])
+			                    ),
+			                    NOT ISBLANK([@PrimeiraEntrada])
+			                        && CONTAINS(
+			                            DatasSelecionadas,
+			                            'Calendario'[Date],
+			                            INT([@PrimeiraEntrada])
+			                        )
+			                )
+			            ),
+			            CROSSFILTER(
+			                'Proposals'[CreatedDate],
+			                'Calendario'[Date],
+			                NONE
+			            )
+			        ),
+			        0
+			    )
+		formatString: #,0
+		displayFolder: Visão Geral
+
+	/// Closed e Discarded igual a FALSE, considerando ClosedDate.
+	measure 'Propostas aceitas' =
+			COALESCE(
+			    CALCULATE(
+			        DISTINCTCOUNT('Proposals'[WorkItemId]),
+			        'Proposals'[State] = "Closed",
+			        'Proposals'[Discarded] == FALSE(),
+			        NOT ISBLANK('Proposals'[ClosedDate]),
+			        CROSSFILTER(
+			            'Proposals'[CreatedDate],
+			            'Calendario'[Date],
+			            NONE
+			        ),
+			        USERELATIONSHIP(
+			            'Proposals'[ClosedDate],
+			            'Calendario'[Date]
+			        )
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: Visão Geral
+
+	/// Closed, Discarded=TRUE e ClosedDate no periodo; nao conta duplicidades, criacoes indevidas nem transferencias ao suporte.
+	measure 'Propostas recusadas' =
+			COALESCE(
+			    CALCULATE(
+			        DISTINCTCOUNT('Proposals'[WorkItemId]),
+			        'Proposals'[State] = "Closed",
+			        'Proposals'[Discarded] == TRUE(),
+			        NOT ISBLANK('Proposals'[ClosedDate]),
+			        KEEPFILTERS(
+			            NOT (
+			                'Proposals'[ReasonforDiscarded] IN {
+			                    "Duplicate Proposal",
+			                    "Incorrect Demand Creation",
+			                    "Transferred to Support Team"
+			                }
+			            )
+			        ),
+			        CROSSFILTER(
+			            'Proposals'[CreatedDate],
+			            'Calendario'[Date],
+			            NONE
+			        ),
+			        USERELATIONSHIP(
+			            'Proposals'[ClosedDate],
+			            'Calendario'[Date]
+			        )
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: Visão Geral
+
+	/// Denominador da taxa de aceite.
+	measure 'Decisões comerciais' =
+			[Propostas aceitas] + [Propostas recusadas]
+		formatString: #,0
+		displayFolder: Visão Geral
+
+	/// Aceitas divididas pelas decisoes comerciais. Em branco sem decisoes.
+	measure 'Taxa de aceite' =
+			DIVIDE(
+			    [Propostas aceitas],
+			    [Decisões comerciais]
+			)
+		formatString: 0.0%
+		displayFolder: Visão Geral
+
+	/// Closed e Discarded vazio, independentemente do periodo.
+	measure 'Validação - fechadas sem classificação' =
+			COALESCE(
+			    CALCULATE(
+			        DISTINCTCOUNT('Proposals'[WorkItemId]),
+			        'Proposals'[State] = "Closed",
+			        ISBLANK('Proposals'[Discarded]),
+			        REMOVEFILTERS('Calendario')
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: Validação
+
+	/// Closed e ClosedDate vazio, independentemente do periodo.
+	measure 'Validação - fechadas sem data' =
+			COALESCE(
+			    CALCULATE(
+			        DISTINCTCOUNT('Proposals'[WorkItemId]),
+			        'Proposals'[State] = "Closed",
+			        ISBLANK('Proposals'[ClosedDate]),
+			        REMOVEFILTERS('Calendario')
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: Validação
+
+	/// Contagem historica das solicitacoes administrativas removidas de Recebidas.
+	measure 'Validação - solicitações administrativas' =
+			COALESCE(
+			    CALCULATE(
+			        DISTINCTCOUNT('Proposals'[WorkItemId]),
+			        'Proposals'[WorkItemType] = "Proposal",
+			        'Proposals'[ReasonforDiscarded] IN {
+			            "Duplicate Proposal",
+			            "Incorrect Demand Creation"
+			        },
+			        REMOVEFILTERS('Calendario')
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: Validação
+
+	/// Contagem historica dos encaminhamentos ao suporte, que nao sao recusas comerciais.
+	measure 'Validação - transferidas ao suporte' =
+			COALESCE(
+			    CALCULATE(
+			        DISTINCTCOUNT('Proposals'[WorkItemId]),
+			        'Proposals'[State] = "Closed",
+			        'Proposals'[Discarded] == TRUE(),
+			        'Proposals'[ReasonforDiscarded] = "Transferred to Support Team",
+			        REMOVEFILTERS('Calendario')
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: Validação
+
 	partition _Medidas = calculated
 		mode: import
 		source = DATATABLE("Placeholder", STRING, {{""}})
-
