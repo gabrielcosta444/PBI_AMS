@@ -4,10 +4,10 @@
   "position": {
     "x": 326,
     "y": 371,
-    "z": 300,
+    "z": 5000,
     "height": 263,
     "width": 747,
-    "tabOrder": 300
+    "tabOrder": 5000
   },
   "visual": {
     "visualType": "barChart",
@@ -329,23 +329,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "25cb470fb3ef7f4c3ef5",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Proposals"
-              }
-            },
-            "Property": "State"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

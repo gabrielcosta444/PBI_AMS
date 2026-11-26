@@ -4,10 +4,10 @@
   "position": {
     "x": 326,
     "y": 748,
-    "z": 300,
+    "z": 8000,
     "height": 263,
     "width": 747,
-    "tabOrder": 302
+    "tabOrder": 7000
   },
   "visual": {
     "visualType": "barChart",
@@ -354,51 +354,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "3d1f69d1bd9c6edcef52",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Proposals"
-              }
-            },
-            "Property": "AssignedToUserName"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "1e59637fccd6aa9a3ffc",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Medidas"
-              }
-            },
-            "Property": "Propostas aceitas"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "667357e2c1f5f113f2a0",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Medidas"
-              }
-            },
-            "Property": "Propostas recusadas"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

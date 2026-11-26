@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "b6c7740f73b6c1b18dbd",
   "position": {
     "x": 1127,
     "y": 371,
-    "z": 300,
-    "width": 742,
+    "z": 7000,
     "height": 263,
-    "tabOrder": 301
+    "width": 742,
+    "tabOrder": 6000
   },
   "visual": {
     "visualType": "lineClusteredColumnComboChart",
@@ -402,5 +402,65 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "a251e6dd98228741f3e8",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calendario"
+              }
+            },
+            "Property": "AnoMes"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "e51afd3dffd5da114a19",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Medidas"
+              }
+            },
+            "Property": "Solicitações recebidas"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "4e3f3c5e2c32e486da53",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Medidas"
+              }
+            },
+            "Property": "Propostas submetidas"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "0b5af0e8af1e23fe2366",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Medidas"
+              }
+            },
+            "Property": "Propostas aceitas"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }
