@@ -1,35 +1,442 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "action_table",
-  "position": { "x": 328, "y": 850, "z": 200, "height": 190, "width": 1544, "tabOrder": 20 },
+  "position": {
+    "x": 330,
+    "y": 890,
+    "z": 420,
+    "width": 1538,
+    "height": 149,
+    "tabOrder": 420
+  },
   "visual": {
     "visualType": "tableEx",
-    "query": { "queryState": { "Values": { "projections": [
-      { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "Proposals" } }, "Property": "WorkItemId" } }, "queryRef": "Proposals.WorkItemId", "nativeQueryRef": "Work Item ID", "displayName": "Work Item ID" },
-      { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "Proposals" } }, "Property": "Title" } }, "queryRef": "Proposals.Title", "nativeQueryRef": "Title", "displayName": "Título" },
-      { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "Proposals" } }, "Property": "AMSClient" } }, "queryRef": "Proposals.AMSClient", "nativeQueryRef": "AMSClient", "displayName": "Cliente" },
-      { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "Proposals" } }, "Property": "State" } }, "queryRef": "Proposals.State", "nativeQueryRef": "State", "displayName": "State atual" },
-      { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "Proposals" } }, "Property": "AssignedToUserName" } }, "queryRef": "Proposals.AssignedToUserName", "nativeQueryRef": "AssignedToUserName", "displayName": "Responsável" },
-      { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "_Medidas" } }, "Property": "Idade proposta (dias)" } }, "queryRef": "_Medidas.Idade proposta (dias)", "nativeQueryRef": "Idade proposta (dias)", "displayName": "Idade (dias)" },
-      { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "_Medidas" } }, "Property": "Dias no State atual" } }, "queryRef": "_Medidas.Dias no State atual", "nativeQueryRef": "Dias no State atual", "displayName": "Dias no State" },
-      { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "Proposals" } }, "Property": "Blocked" } }, "queryRef": "Proposals.Blocked", "nativeQueryRef": "Blocked", "displayName": "Bloqueada?" },
-      { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "Proposals" } }, "Property": "InternalBlock" } }, "queryRef": "Proposals.InternalBlock", "nativeQueryRef": "InternalBlock", "displayName": "Bloqueio interno?" },
-      { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "Proposals" } }, "Property": "TargetDate" } }, "queryRef": "Proposals.TargetDate", "nativeQueryRef": "TargetDate", "displayName": "Prazo" },
-      { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "Proposals" } }, "Property": "DependencyType" } }, "queryRef": "Proposals.DependencyType", "nativeQueryRef": "DependencyType", "displayName": "Dependência" }
-    ] } } },
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Proposals"
+                    }
+                  },
+                  "Property": "WorkItemId"
+                }
+              },
+              "queryRef": "Proposals.WorkItemId",
+              "nativeQueryRef": "WorkItemId",
+              "displayName": "Work Item ID"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Proposals"
+                    }
+                  },
+                  "Property": "Title"
+                }
+              },
+              "queryRef": "Proposals.Title",
+              "nativeQueryRef": "Title",
+              "displayName": "Título"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Proposals"
+                    }
+                  },
+                  "Property": "AMSClient"
+                }
+              },
+              "queryRef": "Proposals.AMSClient",
+              "nativeQueryRef": "AMSClient",
+              "displayName": "Cliente"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Proposals"
+                    }
+                  },
+                  "Property": "State"
+                }
+              },
+              "queryRef": "Proposals.State",
+              "nativeQueryRef": "State",
+              "displayName": "State"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Proposals"
+                    }
+                  },
+                  "Property": "AssignedToUserName"
+                }
+              },
+              "queryRef": "Proposals.AssignedToUserName",
+              "nativeQueryRef": "AssignedToUserName",
+              "displayName": "Responsável"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Idade proposta (dias)"
+                }
+              },
+              "queryRef": "_Medidas.Idade proposta (dias)",
+              "nativeQueryRef": "Idade (dias)",
+              "displayName": "Idade (dias)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Dias no State atual"
+                }
+              },
+              "queryRef": "_Medidas.Dias no State atual",
+              "nativeQueryRef": "Dias no State",
+              "displayName": "Dias no State"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Proposals"
+                    }
+                  },
+                  "Property": "Blocked"
+                }
+              },
+              "queryRef": "Proposals.Blocked",
+              "nativeQueryRef": "Blocked",
+              "displayName": "Externo?"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Proposals"
+                    }
+                  },
+                  "Property": "InternalBlock"
+                }
+              },
+              "queryRef": "Proposals.InternalBlock",
+              "nativeQueryRef": "InternalBlock",
+              "displayName": "Interno?"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Proposals"
+                    }
+                  },
+                  "Property": "TargetDate"
+                }
+              },
+              "queryRef": "Proposals.TargetDate",
+              "nativeQueryRef": "TargetDate",
+              "displayName": "Prazo"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Proposals"
+                    }
+                  },
+                  "Property": "DependencyType"
+                }
+              },
+              "queryRef": "Proposals.DependencyType",
+              "nativeQueryRef": "DependencyType",
+              "displayName": "Dependência"
+            }
+          ]
+        }
+      }
+    },
     "objects": {
-      "grid": [ { "properties": { "rowPadding": { "expr": { "Literal": { "Value": "6L" } } }, "outlineColor": { "solid": { "color": { "expr": { "Literal": { "Value": "'#E1DEE4'" } } } } } } } ],
-      "columnHeaders": [ { "properties": { "fontSize": { "expr": { "Literal": { "Value": "11D" } } }, "fontColor": { "solid": { "color": { "expr": { "Literal": { "Value": "'#4E4B52'" } } } } }, "bold": { "expr": { "Literal": { "Value": "true" } } }, "columnAdjustment": { "expr": { "Literal": { "Value": "'growToFit'" } } }, "autoSizeColumnWidth": { "expr": { "Literal": { "Value": "true" } } } } } ],
-      "values": [ { "properties": { "fontSize": { "expr": { "Literal": { "Value": "10D" } } }, "fontColorPrimary": { "solid": { "color": { "expr": { "Literal": { "Value": "'#34313B'" } } } } }, "fontColorSecondary": { "solid": { "color": { "expr": { "Literal": { "Value": "'#34313B'" } } } } }, "backColorPrimary": { "solid": { "color": { "expr": { "Literal": { "Value": "'#FFFFFF'" } } } } }, "backColorSecondary": { "solid": { "color": { "expr": { "Literal": { "Value": "'#F2F1F4'" } } } } } } } ]
+      "grid": [
+        {
+          "properties": {
+            "rowPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "5L"
+                }
+              }
+            },
+            "outlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#ECE9F0'"
+                    }
+                  }
+                }
+              }
+            },
+            "horizontalGrid": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12L"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#4B4851'"
+                    }
+                  }
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "background": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#F2F0F5'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11L"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#34313B'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "totals": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "visualContainerObjects": {
-      "background": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ],
-      "border": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ],
-      "title": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ],
-      "stylePreset": [ { "properties": { "name": { "expr": { "Literal": { "Value": "'None'" } } } } } ],
-      "visualHeader": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ]
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "0L"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "0L"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "0L"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "0L"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "drillFilterOtherVisuals": true
   },
-  "filterConfig": { "filters": [ { "name": "Filter_ExibirProposta", "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "_Medidas" } }, "Property": "Exibir proposta na tabela" } }, "type": "Advanced", "filter": { "Version": 2, "From": [ { "Name": "m", "Entity": "_Medidas", "Type": 0 } ], "Where": [ { "Condition": { "Comparison": { "ComparisonKind": 0, "Left": { "Measure": { "Expression": { "SourceRef": { "Source": "m" } }, "Property": "Exibir proposta na tabela" } }, "Right": { "Literal": { "Value": "1L" } } } } } ] }, "howCreated": "User" } ] }
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "FiltroExibirCG",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FiltroRapidoCarteira"
+              }
+            },
+            "Property": "CG Exibir proposta na tabela"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "m",
+              "Entity": "FiltroRapidoCarteira",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "m"
+                        }
+                      },
+                      "Property": "CG Exibir proposta na tabela"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "1L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ]
+  }
 }

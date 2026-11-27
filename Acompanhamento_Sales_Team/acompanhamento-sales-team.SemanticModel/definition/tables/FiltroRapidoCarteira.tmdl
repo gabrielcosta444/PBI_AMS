@@ -21,6 +21,126 @@ table FiltroRapidoCarteira
 
 		annotation SummarizationSetBy = User
 
+	measure 'CG Em andamento' =
+			[Propostas em andamento]
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Apoio UI'
+
+	measure 'CG Em atraso' =
+			VAR Hoje = TODAY()
+			RETURN
+			    CALCULATE(
+			        [Carteira atual],
+			        KEEPFILTERS('Proposals'[State] IN {"New", "Next", "Triage", "Planning", "Build"}),
+			        KEEPFILTERS(
+			            FILTER(
+			                ALL('Proposals'[TargetDate]),
+			                NOT ISBLANK('Proposals'[TargetDate])
+			                    && DATEVALUE('Proposals'[TargetDate]) < Hoje
+			            )
+			        )
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Apoio UI'
+
+	measure 'CG Sem avanço >15 dias' =
+			VAR Hoje = TODAY()
+			RETURN
+			    CALCULATE(
+			        [Carteira atual],
+			        KEEPFILTERS('Proposals'[State] IN {"New", "Next", "Triage", "Planning", "Build"}),
+			        KEEPFILTERS(
+			            FILTER(
+			                ALL('Proposals'[StateChangeDate]),
+			                NOT ISBLANK('Proposals'[StateChangeDate])
+			                    && DATEVALUE('Proposals'[StateChangeDate]) < Hoje - 15
+			            )
+			        )
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Apoio UI'
+
+	measure 'CG Vencimento próximo' =
+			VAR Hoje = TODAY()
+			RETURN
+			    CALCULATE(
+			        [Carteira atual],
+			        KEEPFILTERS('Proposals'[State] IN {"New", "Next", "Triage", "Planning", "Build"}),
+			        KEEPFILTERS(
+			            FILTER(
+			                ALL('Proposals'[TargetDate]),
+			                NOT ISBLANK('Proposals'[TargetDate])
+			                    && DATEVALUE('Proposals'[TargetDate]) >= Hoje
+			                    && DATEVALUE('Proposals'[TargetDate]) <= Hoje + 7
+			            )
+			        )
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Apoio UI'
+
+	measure 'CG Ocorrências de bloqueio por dependência' =
+			COALESCE([Propostas com bloqueio interno por dependência], 0)
+			    + COALESCE([Propostas com bloqueio externo por dependência], 0)
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Apoio UI'
+
+	measure 'CG Contagem do filtro rápido' =
+			VAR Opcao = SELECTEDVALUE('FiltroRapidoCarteira'[Opção])
+			RETURN
+			    COALESCE(
+			        SWITCH(
+			            Opcao,
+			            "Todas", [Propostas abertas],
+			            "Bloqueio externo", [Propostas com bloqueio externo],
+			            "Bloqueio interno", [Propostas com bloqueio interno],
+			            "Atrasadas", [CG Em atraso],
+			            "Sem avanço", [CG Sem avanço >15 dias],
+			            "Vencimento próximo", [CG Vencimento próximo],
+			            0
+			        ),
+			        0
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Apoio UI'
+
+	measure 'CG Exibir proposta na tabela' =
+			VAR Item = SELECTEDVALUE('Proposals'[WorkItemId])
+			VAR Opcao = SELECTEDVALUE('FiltroRapidoCarteira'[Opção], "Todas")
+			VAR Estado = SELECTEDVALUE('Proposals'[State])
+			VAR EtapaAntesAprovacao = Estado IN {"New", "Next", "Triage", "Planning", "Build"}
+			VAR Hoje = TODAY()
+			VAR DataAlteracaoEtapa = SELECTEDVALUE('Proposals'[StateChangeDate])
+			VAR Prazo = SELECTEDVALUE('Proposals'[TargetDate])
+			VAR Aberta = CALCULATE([Carteira atual]) > 0
+			VAR TipoDependenciaFiltrado = ISFILTERED('ProposalDependencyTypes'[DependencyType])
+			VAR TipoPresente =
+			    CALCULATE(
+			        COUNTROWS('ProposalDependencyTypes'),
+			        TREATAS({Item}, 'ProposalDependencyTypes'[WorkItemId])
+			    ) > 0
+			VAR PassaRapido =
+			    SWITCH(
+			        Opcao,
+			        "Todas", TRUE(),
+			        "Bloqueio externo", SELECTEDVALUE('Proposals'[Blocked]) = TRUE(),
+			        "Bloqueio interno", SELECTEDVALUE('Proposals'[InternalBlock]) = TRUE(),
+			        "Atrasadas", EtapaAntesAprovacao && NOT ISBLANK(Prazo) && DATEVALUE(Prazo) < Hoje,
+			        "Sem avanço", EtapaAntesAprovacao && NOT ISBLANK(DataAlteracaoEtapa)
+			            && DATEVALUE(DataAlteracaoEtapa) < Hoje - 15,
+			        "Vencimento próximo", EtapaAntesAprovacao && NOT ISBLANK(Prazo)
+			            && DATEVALUE(Prazo) >= Hoje && DATEVALUE(Prazo) <= Hoje + 7,
+			        FALSE()
+			    )
+			RETURN
+			    IF(
+			        NOT ISBLANK(Item) && Aberta && PassaRapido
+			            && (NOT TipoDependenciaFiltrado || TipoPresente),
+			        1,
+			        0
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Apoio UI'
+
 	partition FiltroRapidoCarteira = calculated
 		mode: import
 		source =
@@ -32,8 +152,7 @@ table FiltroRapidoCarteira
 			        {"Bloqueio externo", 2},
 			        {"Bloqueio interno", 3},
 			        {"Atrasadas", 4},
-			        {"Sem movimentação", 5},
+			        {"Sem avanço", 5},
 			        {"Vencimento próximo", 6}
 			    }
 			)
-

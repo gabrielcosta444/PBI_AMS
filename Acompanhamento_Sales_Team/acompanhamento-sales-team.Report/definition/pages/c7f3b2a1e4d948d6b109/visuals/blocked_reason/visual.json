@@ -1,15 +1,327 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "blocked_reason",
-  "position": { "x": 1132, "y": 300, "z": 100, "height": 176, "width": 740, "tabOrder": 11 },
+  "position": {
+    "x": 1114,
+    "y": 325,
+    "z": 201,
+    "width": 758,
+    "height": 164,
+    "tabOrder": 201
+  },
   "visual": {
     "visualType": "barChart",
-    "query": { "queryState": {
-      "Category": { "projections": [ { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "ProposalDependencyTypes" } }, "Property": "DependencyType" } }, "queryRef": "ProposalDependencyTypes.DependencyType", "nativeQueryRef": "DependencyType", "active": true } ] },
-      "Y": { "projections": [ { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "_Medidas" } }, "Property": "Propostas com bloqueio interno por dependência" } }, "queryRef": "_Medidas.Propostas com bloqueio interno por dependência", "nativeQueryRef": "Bloqueio interno" }, { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "_Medidas" } }, "Property": "Propostas com bloqueio externo por dependência" } }, "queryRef": "_Medidas.Propostas com bloqueio externo por dependência", "nativeQueryRef": "Bloqueio externo" } ] }
-    }, "sortDefinition": { "sort": [ { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "_Medidas" } }, "Property": "Propostas com bloqueio interno por dependência" } }, "direction": "Descending" } ], "isDefaultSort": true } },
-    "objects": { "categoryAxis": [ { "properties": { "showAxisTitle": { "expr": { "Literal": { "Value": "false" } } }, "fontSize": { "expr": { "Literal": { "Value": "10D" } } } } } ], "valueAxis": [ { "properties": { "showAxisTitle": { "expr": { "Literal": { "Value": "false" } } }, "gridlineShow": { "expr": { "Literal": { "Value": "false" } } } } } ], "legend": [ { "properties": { "show": { "expr": { "Literal": { "Value": "true" } } }, "position": { "expr": { "Literal": { "Value": "'TopCenter'" } } }, "fontSize": { "expr": { "Literal": { "Value": "9D" } } } } } ], "dataPoint": [ { "properties": { "fill": { "solid": { "color": { "expr": { "Literal": { "Value": "'#84058B'" } } } } } }, "selector": { "metadata": "_Medidas.Propostas com bloqueio interno por dependência" } }, { "properties": { "fill": { "solid": { "color": { "expr": { "Literal": { "Value": "'#FA8228'" } } } } } }, "selector": { "metadata": "_Medidas.Propostas com bloqueio externo por dependência" } } ], "labels": [ { "properties": { "show": { "expr": { "Literal": { "Value": "true" } } }, "fontSize": { "expr": { "Literal": { "Value": "9D" } } } } } ] },
-    "visualContainerObjects": { "background": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ], "border": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ], "title": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ], "visualHeader": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ] },
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ProposalDependencyTypes"
+                    }
+                  },
+                  "Property": "DependencyType"
+                }
+              },
+              "queryRef": "ProposalDependencyTypes.DependencyType",
+              "nativeQueryRef": "DependencyType"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Propostas com bloqueio interno por dependência"
+                }
+              },
+              "queryRef": "_Medidas.Propostas com bloqueio interno por dependência",
+              "nativeQueryRef": "Bloqueio interno",
+              "displayName": "Bloqueio interno"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Propostas com bloqueio externo por dependência"
+                }
+              },
+              "queryRef": "_Medidas.Propostas com bloqueio externo por dependência",
+              "nativeQueryRef": "Bloqueio externo",
+              "displayName": "Bloqueio externo"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FiltroRapidoCarteira"
+                    }
+                  },
+                  "Property": "CG Ocorrências de bloqueio por dependência"
+                }
+              },
+              "queryRef": "FiltroRapidoCarteira.CG Ocorrências de bloqueio por dependência",
+              "nativeQueryRef": "CG Ocorrências de bloqueio por dependência"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "FiltroRapidoCarteira"
+                  }
+                },
+                "Property": "CG Ocorrências de bloqueio por dependência"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "categoryAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11L"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "gridlineShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10L"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10L"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#222128'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "legend": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dataPoint": [
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#6C087F'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Medidas.Propostas com bloqueio interno por dependência"
+          }
+        },
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#F47A28'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Medidas.Propostas com bloqueio externo por dependência"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "0L"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "0L"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "0L"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "0L"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "drillFilterOtherVisuals": true
   }
 }
