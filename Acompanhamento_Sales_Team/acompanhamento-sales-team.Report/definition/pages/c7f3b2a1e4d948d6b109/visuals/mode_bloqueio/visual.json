@@ -1,13 +1,36 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "mode_bloqueio",
-  "position": { "x": 1688, "y": 258, "z": 400, "height": 32, "width": 190, "tabOrder": 40 },
+  "position": { "x": 1680, "y": 500, "z": 400, "height": 56, "width": 192, "tabOrder": 40 },
   "visual": {
-    "visualType": "slicer",
-    "query": { "queryState": { "Values": { "projections": [ { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "ModoBloqueio" } }, "Property": "Modo" } }, "queryRef": "ModoBloqueio.Modo", "nativeQueryRef": "Modo" } ] } } },
+    "visualType": "advancedSlicerVisual",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": { "Column": { "Expression": { "SourceRef": { "Entity": "ModoBloqueio" } }, "Property": "Modo" } },
+              "queryRef": "ModoBloqueio.Modo",
+              "nativeQueryRef": "Modo"
+            }
+          ]
+        }
+      }
+    },
     "objects": {
-      "data": [ { "properties": { "mode": { "expr": { "Literal": { "Value": "'Tile'" } } } } } ],
-      "selection": [ { "properties": { "singleSelect": { "expr": { "Literal": { "Value": "true" } } }, "selectAllCheckboxEnabled": { "expr": { "Literal": { "Value": "false" } } } } } ]
+      "layout": [
+        { "properties": { "rowCount": { "expr": { "Literal": { "Value": "1L" } } }, "columnCount": { "expr": { "Literal": { "Value": "2L" } } } } }
+      ],
+      "shapeCustomRectangle": [
+        { "properties": { "tileShape": { "expr": { "Literal": { "Value": "'rectangleRoundedByPixel'" } } }, "rectangleRoundedCurve": { "expr": { "Literal": { "Value": "8L" } } } }, "selector": { "id": "default" } }
+      ],
+      "fillCustom": [
+        { "properties": { "fillColor": { "solid": { "color": { "expr": { "Literal": { "Value": "'#FFFFFF'" } } } } } }, "selector": { "id": "default" } },
+        { "properties": { "fillColor": { "solid": { "color": { "expr": { "Literal": { "Value": "'#84058B'" } } } } } }, "selector": { "id": "selection:selected" } }
+      ],
+      "selection": [
+        { "properties": { "singleSelect": { "expr": { "Literal": { "Value": "true" } } }, "forceSelection": { "expr": { "Literal": { "Value": "true" } } } } }
+      ]
     },
     "visualContainerObjects": {
       "background": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ],
