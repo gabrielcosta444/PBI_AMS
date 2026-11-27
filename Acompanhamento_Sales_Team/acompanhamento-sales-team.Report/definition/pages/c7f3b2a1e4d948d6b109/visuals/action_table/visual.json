@@ -1,0 +1,32 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "action_table",
+  "position": { "x": 28, "y": 740, "z": 200, "height": 312, "width": 1840, "tabOrder": 20 },
+  "visual": {
+    "visualType": "tableEx",
+    "query": { "queryState": { "Values": { "projections": [
+      { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "Proposals" } }, "Property": "WorkItemId" } }, "queryRef": "Proposals.WorkItemId", "nativeQueryRef": "Work Item ID", "displayName": "Work Item ID" },
+      { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "Proposals" } }, "Property": "Title" } }, "queryRef": "Proposals.Title", "nativeQueryRef": "Title", "displayName": "Título" },
+      { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "Proposals" } }, "Property": "AMSClient" } }, "queryRef": "Proposals.AMSClient", "nativeQueryRef": "AMSClient", "displayName": "Cliente" },
+      { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "Proposals" } }, "Property": "State" } }, "queryRef": "Proposals.State", "nativeQueryRef": "State", "displayName": "State atual" },
+      { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "Proposals" } }, "Property": "AssignedToUserName" } }, "queryRef": "Proposals.AssignedToUserName", "nativeQueryRef": "AssignedToUserName", "displayName": "Responsável" },
+      { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "_Medidas" } }, "Property": "Idade proposta (dias)" } }, "queryRef": "_Medidas.Idade proposta (dias)", "nativeQueryRef": "Idade proposta (dias)", "displayName": "Idade (dias)" },
+      { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "_Medidas" } }, "Property": "Dias no State atual" } }, "queryRef": "_Medidas.Dias no State atual", "nativeQueryRef": "Dias no State atual", "displayName": "Dias no State" },
+      { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "Proposals" } }, "Property": "Blocked" } }, "queryRef": "Proposals.Blocked", "nativeQueryRef": "Blocked", "displayName": "Bloqueada?" },
+      { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "Proposals" } }, "Property": "TargetDate" } }, "queryRef": "Proposals.TargetDate", "nativeQueryRef": "TargetDate", "displayName": "Prazo" },
+      { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "Proposals" } }, "Property": "DependencyType" } }, "queryRef": "Proposals.DependencyType", "nativeQueryRef": "DependencyType", "displayName": "Dependência" }
+    ] } } },
+    "objects": {
+      "grid": [ { "properties": { "rowPadding": { "expr": { "Literal": { "Value": "6L" } } }, "outlineColor": { "solid": { "color": { "expr": { "Literal": { "Value": "'#E1DEE4'" } } } } } } } ],
+      "columnHeaders": [ { "properties": { "fontSize": { "expr": { "Literal": { "Value": "11D" } } }, "fontColor": { "solid": { "color": { "expr": { "Literal": { "Value": "'#4E4B52'" } } } } }, "bold": { "expr": { "Literal": { "Value": "true" } } } } } ],
+      "values": [ { "properties": { "fontSize": { "expr": { "Literal": { "Value": "10D" } } }, "fontColor": { "solid": { "color": { "expr": { "Literal": { "Value": "'#34313B'" } } } } } } } ]
+    },
+    "visualContainerObjects": {
+      "background": [ { "properties": { "show": { "expr": { "Literal": { "Value": "true" } } }, "color": { "solid": { "color": { "expr": { "Literal": { "Value": "'#FFFFFF'" } } } } } } } ],
+      "border": [ { "properties": { "show": { "expr": { "Literal": { "Value": "true" } } }, "color": { "solid": { "color": { "expr": { "Literal": { "Value": "'#E1DEE4'" } } } } } } } ],
+      "title": [ { "properties": { "show": { "expr": { "Literal": { "Value": "true" } } }, "titleText": { "expr": { "Literal": { "Value": "'Propostas que exigem ação'" } } }, "fontSize": { "expr": { "Literal": { "Value": "13D" } } } } } ],
+      "visualHeader": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -3,7 +3,6 @@ table Proposals
 
 	column WorkItemId
 		dataType: int64
-		isHidden
 		formatString: 0
 		lineageTag: 8488ce3b-d6a7-4cfa-88a9-d6184cfd19e5
 		summarizeBy: none
@@ -234,9 +233,16 @@ table Proposals
 
 		annotation SummarizationSetBy = Automatic
 
+	column BlockedReasonDisplay = IF([Blocked] = TRUE() && LEN(TRIM([BlockedReason] & "")) = 0, "(Sem motivo)", [BlockedReason])
+		dataType: string
+		displayFolder: 'Carteira e Gargalos'
+		lineageTag: b2e0f37c-6995-4466-8d67-d2778d42f555
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
 	column DependencyType
 		dataType: string
-		isHidden
 		lineageTag: 70c17aab-6e28-4880-b065-191153dbf28d
 		summarizeBy: none
 		sourceColumn: DependencyType

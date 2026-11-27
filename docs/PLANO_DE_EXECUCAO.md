@@ -138,11 +138,22 @@ Padrão de implementação atual: fundo gráfico registrado e **visuais nativos 
 
 - Criar **segunda página PBIR** com ID próprio, atualizar `pages.json`, adicionar nome de página adequado e preservar a primeira.
 - Reutilizar marca/gradiente/sidebar/card, com densidade informacional controlada; tabela ocupa faixa inferior e pode permitir rolagem.
-- Filtros sugeridos: Responsável, Torre associada (`ProjectWorkTypes`), Cliente, State, Bloqueado, Tipo de projeto; período apenas se a interpretação operacional for definida.
-- Adicionar medidas e filtros da etapa 07 aos visuais. Conferir sorting, formatos, labels, acessibilidade, responsividade em `FitToPage`.
-- Não usar números fixos de protótipos. Validar com screenshot no Desktop.
+- Manter cinco KPIs: `Propostas em andamento`, `Propostas bloqueadas`, `Propostas em atraso`, `Propostas sem movimentação há mais de 15 dias` e `Idade mediana da carteira`. A definição de “em andamento” será `Next`, `Triage`, `Planning` e `Build`, conforme o protótipo; `Propostas abertas` continuará disponível como total de toda a carteira válida não fechada.
+- Criar quatro gráficos, sem acrescentar elementos decorativos:
+  1. **Idade das propostas por State**: barras horizontais 100% empilhadas por tempo no State atual (`StateChangeDate`), nas faixas `0–7`, `8–15`, `16–30`, `31–60` e `>60 dias`. Tooltips devem trazer quantidade, média, mediana, maior permanência e quantidade acima de 60 dias.
+  2. **Bloqueios por motivo**: propostas comerciais abertas com `Blocked = TRUE`, agrupadas por `BlockedReason`; tratar motivo vazio explicitamente e não misturar cards técnicos.
+  3. **Carteira por responsável**: quantidade de propostas abertas válidas por `Proposals[AssignedToUserName]`.
+  4. **Incidência de bloqueios por State**: quantidade bloqueada, quantidade total aberta e percentual bloqueado por State; priorizar o percentual para comparação entre etapas de volumes diferentes. Esta é uma fotografia atual, não histórico de bloqueios.
+- Não usar `BlockedTimeInMinutes` como tempo bloqueado no State. O modelo não possui histórico completo de intervalos de bloqueio; essa métrica fica como melhoria futura e não deve ser inferida de `ProposalStateHistory`.
+- A tabela **Propostas que exigem ação** deve conter `WorkItemId`, `Title`, `AMSClient`, `State`, `AssignedToUserName`, idade total, dias no State atual, `Blocked`, `TargetDate` e `DependencyType`. Expor somente os campos ocultos necessários para a tabela, sem alterar partições ou conexões.
+- Filtros rápidos ficam limitados a critérios suportados: todas, bloqueadas, atrasadas e sem movimentação. Um filtro de vencimento próximo só será incluído se a medida correspondente for criada e validada.
+- Filtros sugeridos: Responsável, Torre associada (`ProjectWorkTypes`), Cliente, State, Bloqueado e Tipo de projeto. Omitir Período por padrão, pois a página representa o estoque atual e não possui snapshots históricos.
+- Adicionar medidas e filtros da Etapa 07 aos visuais. Conferir sorting, formatos, labels, acessibilidade, responsividade em `FitToPage` e tooltips sem números fictícios.
+- Não usar números fixos do protótipo. Validar casos reais por `WorkItemId` no Desktop e registrar a captura aprovada pelo usuário.
 
 **Aceitação:** página 2 concluída e validada por usuário antes de iniciar a 3.
+
+**Execução inicial registrada (26/11/2026):** a página `Carteira e Gargalos` foi criada no PBIR com o ID `c7f3b2a1e4d948d6b109`, incluindo os cinco KPIs, os quatro gráficos definidos, a tabela operacional e filtros de State, bloqueio, responsável, cliente, tipo de projeto e torre associada. A validação estrutural confirmou JSON parseável, IDs visuais únicos e referências existentes; a validação de renderização e números reais permanece pendente de abertura no Power BI Desktop.
 
 ## 7. Etapa 09 — Modelo e medidas da página Torres Técnicas
 

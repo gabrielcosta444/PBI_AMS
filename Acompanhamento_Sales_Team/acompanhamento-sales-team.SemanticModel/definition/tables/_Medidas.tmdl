@@ -551,6 +551,225 @@ table _Medidas
 		displayFolder: Validação
 		lineageTag: a07c3c40-538b-41b9-920a-4653a82d6a8c
 
+	/// Estados de trabalho definidos no prototipo: Next, Triage, Planning e Build.
+	measure 'Propostas em andamento' =
+			COALESCE(
+			    CALCULATE(
+			        [Propostas abertas],
+			        KEEPFILTERS(
+			            'Proposals'[State] IN {
+			                "Next",
+			                "Triage",
+			                "Planning",
+			                "Build"
+			            }
+			        )
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos'
+		lineageTag: dd854e1d-2ab2-4f14-9013-2888e38886ed
+
+	/// Media de dias desde StateChangeDate ate hoje para a carteira aberta.
+	measure 'Tempo médio no State atual (dias)' =
+			VAR Hoje = TODAY()
+			VAR CarteiraValida =
+			    FILTER(
+			        CALCULATETABLE(
+			            'Proposals',
+			            REMOVEFILTERS('Calendario'),
+			            KEEPFILTERS('Proposals'[WorkItemType] = "Proposal"),
+			            KEEPFILTERS('Proposals'[State] <> "Closed"),
+			            KEEPFILTERS(NOT ISBLANK('Proposals'[State])),
+			            KEEPFILTERS(
+			                NOT (
+			                    'Proposals'[ReasonforDiscarded] IN {
+			                        "Duplicate Proposal",
+			                        "Incorrect Demand Creation"
+			                    }
+			                )
+			            )
+			        ),
+			        NOT ISBLANK('Proposals'[StateChangeDate])
+			    )
+			RETURN
+			    AVERAGEX(
+			        CarteiraValida,
+			        MAX(0, DATEDIFF(DATEVALUE('Proposals'[StateChangeDate]), Hoje, DAY))
+			    )
+		formatString: 0.0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: d5fbf76f-4d94-40af-9156-433da73c199d
+
+	/// Maior permanencia no State atual entre propostas abertas validas.
+	measure 'Maior permanência no State atual (dias)' =
+			VAR Hoje = TODAY()
+			VAR CarteiraValida =
+			    FILTER(
+			        CALCULATETABLE(
+			            'Proposals',
+			            REMOVEFILTERS('Calendario'),
+			            KEEPFILTERS('Proposals'[WorkItemType] = "Proposal"),
+			            KEEPFILTERS('Proposals'[State] <> "Closed"),
+			            KEEPFILTERS(NOT ISBLANK('Proposals'[State])),
+			            KEEPFILTERS(
+			                NOT (
+			                    'Proposals'[ReasonforDiscarded] IN {
+			                        "Duplicate Proposal",
+			                        "Incorrect Demand Creation"
+			                    }
+			                )
+			            )
+			        ),
+			        NOT ISBLANK('Proposals'[StateChangeDate])
+			    )
+			RETURN
+			    MAXX(
+			        CarteiraValida,
+			        MAX(0, DATEDIFF(DATEVALUE('Proposals'[StateChangeDate]), Hoje, DAY))
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: ad0886c8-9d07-448c-84f9-de5537d8c236
+
+	/// Faixa 0 a 7 dias no State atual.
+	measure 'State 0-7 dias' =
+			VAR Hoje = TODAY()
+			RETURN
+			    COALESCE(
+			        CALCULATE(
+			            [Propostas abertas],
+			            KEEPFILTERS(
+			                FILTER(
+			                    CALCULATETABLE(
+			                        VALUES('Proposals'[StateChangeDate]),
+			                        REMOVEFILTERS('Calendario')
+			                    ),
+			                    NOT ISBLANK('Proposals'[StateChangeDate])
+			                        && DATEVALUE('Proposals'[StateChangeDate]) >= Hoje - 7
+			                        && DATEVALUE('Proposals'[StateChangeDate]) <= Hoje
+			                )
+			            )
+			        ),
+			        0
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: efa62c4e-6a6c-45cd-b8a6-ae04de82969a
+
+	/// Faixa 8 a 15 dias no State atual.
+	measure 'State 8-15 dias' =
+			VAR Hoje = TODAY()
+			RETURN
+			    COALESCE(
+			        CALCULATE(
+			            [Propostas abertas],
+			            KEEPFILTERS(
+			                FILTER(
+			                    CALCULATETABLE(
+			                        VALUES('Proposals'[StateChangeDate]),
+			                        REMOVEFILTERS('Calendario')
+			                    ),
+			                    DATEVALUE('Proposals'[StateChangeDate]) >= Hoje - 15
+			                        && DATEVALUE('Proposals'[StateChangeDate]) < Hoje - 7
+			                )
+			            )
+			        ),
+			        0
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: 836a2587-1516-4adb-ac48-ebc36c13570b
+
+	/// Faixa 16 a 30 dias no State atual.
+	measure 'State 16-30 dias' =
+			VAR Hoje = TODAY()
+			RETURN
+			    COALESCE(
+			        CALCULATE(
+			            [Propostas abertas],
+			            KEEPFILTERS(
+			                FILTER(
+			                    CALCULATETABLE(
+			                        VALUES('Proposals'[StateChangeDate]),
+			                        REMOVEFILTERS('Calendario')
+			                    ),
+			                    DATEVALUE('Proposals'[StateChangeDate]) >= Hoje - 30
+			                        && DATEVALUE('Proposals'[StateChangeDate]) < Hoje - 15
+			                )
+			            )
+			        ),
+			        0
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: fdf0f872-0c6c-45d2-a595-96e250637551
+
+	/// Faixa 31 a 60 dias no State atual.
+	measure 'State 31-60 dias' =
+			VAR Hoje = TODAY()
+			RETURN
+			    COALESCE(
+			        CALCULATE(
+			            [Propostas abertas],
+			            KEEPFILTERS(
+			                FILTER(
+			                    CALCULATETABLE(
+			                        VALUES('Proposals'[StateChangeDate]),
+			                        REMOVEFILTERS('Calendario')
+			                    ),
+			                    DATEVALUE('Proposals'[StateChangeDate]) >= Hoje - 60
+			                        && DATEVALUE('Proposals'[StateChangeDate]) < Hoje - 30
+			                )
+			            )
+			        ),
+			        0
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: 46efd0b4-476f-4907-a3a7-7913558b04dd
+
+	/// Faixa acima de 60 dias no State atual.
+	measure 'State >60 dias' =
+			VAR Hoje = TODAY()
+			RETURN
+			    COALESCE(
+			        CALCULATE(
+			            [Propostas abertas],
+			            KEEPFILTERS(
+			                FILTER(
+			                    CALCULATETABLE(
+			                        VALUES('Proposals'[StateChangeDate]),
+			                        REMOVEFILTERS('Calendario')
+			                    ),
+			                    NOT ISBLANK('Proposals'[StateChangeDate])
+			                        && DATEVALUE('Proposals'[StateChangeDate]) < Hoje - 60
+			                )
+			            )
+			        ),
+			        0
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: 8de9cf8e-44c0-430e-a736-b6f69ee0f7a1
+
+	/// Quantidade acima de 60 dias no State atual; alias explicito para tooltip.
+	measure 'Propostas acima de 60 dias no State atual' = [State >60 dias]
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: 03bc8fa9-36e8-4d60-8928-bbe710942ffd
+
+	/// Percentual da carteira aberta bloqueada no State atual.
+	measure '% de bloqueio por State' =
+			DIVIDE(
+			    [Propostas bloqueadas],
+			    [Propostas abertas]
+			)
+		formatString: 0.0%
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: a373564b-bdea-4356-9848-ea40eb52612f
+
 	column Placeholder
 		dataType: string
 		isHidden

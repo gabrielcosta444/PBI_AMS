@@ -1,0 +1,19 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "kpi_andamento",
+  "position": { "x": 28, "y": 28, "z": 1000, "height": 108, "width": 350, "tabOrder": 0 },
+  "visual": {
+    "visualType": "card",
+    "query": { "queryState": { "Values": { "projections": [ { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "_Medidas" } }, "Property": "Propostas em andamento" } }, "queryRef": "_Medidas.Propostas em andamento", "nativeQueryRef": "Propostas em andamento" } ] } } },
+    "objects": {
+      "labels": [ { "properties": { "color": { "solid": { "color": { "expr": { "Literal": { "Value": "'#232227'" } } } } }, "fontSize": { "expr": { "Literal": { "Value": "35D" } } }, "bold": { "expr": { "Literal": { "Value": "true" } } }, "fontFamily": { "expr": { "Literal": { "Value": "'Segoe UI Semibold'" } } } } } ],
+      "categoryLabels": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ]
+    },
+    "visualContainerObjects": {
+      "background": [ { "properties": { "show": { "expr": { "Literal": { "Value": "true" } } }, "color": { "solid": { "color": { "expr": { "Literal": { "Value": "'#FFFFFF'" } } } } }, "transparency": { "expr": { "Literal": { "Value": "0D" } } } } } ],
+      "border": [ { "properties": { "show": { "expr": { "Literal": { "Value": "true" } } }, "color": { "solid": { "color": { "expr": { "Literal": { "Value": "'#E1DEE4'" } } } } }, "radius": { "expr": { "Literal": { "Value": "8L" } } } } } ],
+      "title": [ { "properties": { "show": { "expr": { "Literal": { "Value": "true" } } }, "titleText": { "expr": { "Literal": { "Value": "'Propostas em andamento'" } } }, "fontSize": { "expr": { "Literal": { "Value": "12D" } } }, "color": { "solid": { "color": { "expr": { "Literal": { "Value": "'#4E4B52'" } } } } } } } ],
+      "visualHeader": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ]
+    }
+  }
+}

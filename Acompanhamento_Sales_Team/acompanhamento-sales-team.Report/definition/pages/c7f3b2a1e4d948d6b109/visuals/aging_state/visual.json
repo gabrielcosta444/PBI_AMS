@@ -1,0 +1,42 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "aging_state",
+  "position": { "x": 28, "y": 160, "z": 100, "height": 270, "width": 600, "tabOrder": 10 },
+  "visual": {
+    "visualType": "hundredPercentStackedBarChart",
+    "query": {
+      "queryState": {
+        "Category": { "projections": [ { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "Proposals" } }, "Property": "State" } }, "queryRef": "Proposals.State", "nativeQueryRef": "State", "active": true } ] },
+        "Y": { "projections": [
+          { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "_Medidas" } }, "Property": "State 0-7 dias" } }, "queryRef": "_Medidas.State 0-7 dias", "nativeQueryRef": "0–7 dias" },
+          { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "_Medidas" } }, "Property": "State 8-15 dias" } }, "queryRef": "_Medidas.State 8-15 dias", "nativeQueryRef": "8–15 dias" },
+          { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "_Medidas" } }, "Property": "State 16-30 dias" } }, "queryRef": "_Medidas.State 16-30 dias", "nativeQueryRef": "16–30 dias" },
+          { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "_Medidas" } }, "Property": "State 31-60 dias" } }, "queryRef": "_Medidas.State 31-60 dias", "nativeQueryRef": "31–60 dias" },
+          { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "_Medidas" } }, "Property": "State >60 dias" } }, "queryRef": "_Medidas.State >60 dias", "nativeQueryRef": ">60 dias" }
+        ] },
+        "Tooltips": { "projections": [
+          { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "_Medidas" } }, "Property": "Propostas abertas" } }, "queryRef": "_Medidas.Propostas abertas", "nativeQueryRef": "Propostas abertas" },
+          { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "_Medidas" } }, "Property": "Tempo médio no State atual (dias)" } }, "queryRef": "_Medidas.Tempo médio no State atual (dias)", "nativeQueryRef": "Tempo médio no State atual (dias)" },
+          { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "_Medidas" } }, "Property": "Mediana dias no State atual" } }, "queryRef": "_Medidas.Mediana dias no State atual", "nativeQueryRef": "Mediana dias no State atual" },
+          { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "_Medidas" } }, "Property": "Maior permanência no State atual (dias)" } }, "queryRef": "_Medidas.Maior permanência no State atual (dias)", "nativeQueryRef": "Maior permanência no State atual (dias)" },
+          { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "_Medidas" } }, "Property": "Propostas acima de 60 dias no State atual" } }, "queryRef": "_Medidas.Propostas acima de 60 dias no State atual", "nativeQueryRef": "Propostas acima de 60 dias" }
+        ] }
+      },
+      "sortDefinition": { "sort": [ { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "_Medidas" } }, "Property": "Propostas abertas" } }, "direction": "Descending" } ], "isDefaultSort": true }
+    },
+    "objects": {
+      "categoryAxis": [ { "properties": { "showAxisTitle": { "expr": { "Literal": { "Value": "false" } } }, "fontSize": { "expr": { "Literal": { "Value": "11D" } } } } } ],
+      "valueAxis": [ { "properties": { "showAxisTitle": { "expr": { "Literal": { "Value": "false" } } }, "fontSize": { "expr": { "Literal": { "Value": "10D" } } }, "labelColor": { "solid": { "color": { "expr": { "Literal": { "Value": "'#78777D'" } } } } } } } ],
+      "legend": [ { "properties": { "show": { "expr": { "Literal": { "Value": "true" } } }, "position": { "expr": { "Literal": { "Value": "'TopCenter'" } } }, "fontSize": { "expr": { "Literal": { "Value": "10D" } } } } } ],
+      "labels": [ { "properties": { "show": { "expr": { "Literal": { "Value": "true" } } }, "fontSize": { "expr": { "Literal": { "Value": "10D" } } }, "labelDisplayUnits": { "expr": { "Literal": { "Value": "1D" } } } } } ],
+      "dataPoint": [ { "properties": { "fill": { "solid": { "color": { "expr": { "Literal": { "Value": "'#5A0A73'" } } } } } } }, { "properties": { "fill": { "solid": { "color": { "expr": { "Literal": { "Value": "'#8B3BA5'" } } } } } }, "selector": { "metadata": "_Medidas.State 8-15 dias" } }, { "properties": { "fill": { "solid": { "color": { "expr": { "Literal": { "Value": "'#B986C7'" } } } } } }, "selector": { "metadata": "_Medidas.State 16-30 dias" } }, { "properties": { "fill": { "solid": { "color": { "expr": { "Literal": { "Value": "'#D8B9E2'" } } } } } }, "selector": { "metadata": "_Medidas.State 31-60 dias" } }, { "properties": { "fill": { "solid": { "color": { "expr": { "Literal": { "Value": "'#FA8228'" } } } } } }, "selector": { "metadata": "_Medidas.State >60 dias" } } ]
+    },
+    "visualContainerObjects": {
+      "background": [ { "properties": { "show": { "expr": { "Literal": { "Value": "true" } } }, "color": { "solid": { "color": { "expr": { "Literal": { "Value": "'#FFFFFF'" } } } } } } } ],
+      "border": [ { "properties": { "show": { "expr": { "Literal": { "Value": "true" } } }, "color": { "solid": { "color": { "expr": { "Literal": { "Value": "'#E1DEE4'" } } } } } } } ],
+      "title": [ { "properties": { "show": { "expr": { "Literal": { "Value": "true" } } }, "titleText": { "expr": { "Literal": { "Value": "'Idade das propostas por State'" } } }, "fontSize": { "expr": { "Literal": { "Value": "13D" } } } } } ],
+      "visualHeader": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
