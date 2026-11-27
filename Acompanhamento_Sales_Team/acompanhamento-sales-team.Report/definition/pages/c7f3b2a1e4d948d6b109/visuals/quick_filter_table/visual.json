@@ -1,0 +1,21 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "quick_filter_table",
+  "position": { "x": 700, "y": 575, "z": 400, "height": 40, "width": 1170, "tabOrder": 41 },
+  "visual": {
+    "visualType": "slicer",
+    "query": { "queryState": { "Values": { "projections": [ { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "FiltroRapidoCarteira" } }, "Property": "Opção" } }, "queryRef": "FiltroRapidoCarteira.Opção", "nativeQueryRef": "Opção" } ] }, "Tooltips": { "projections": [ { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "_Medidas" } }, "Property": "Rótulo filtro rápido" } }, "queryRef": "_Medidas.Rótulo filtro rápido", "nativeQueryRef": "Contagem da opção" } ] } } },
+    "objects": {
+      "data": [ { "properties": { "mode": { "expr": { "Literal": { "Value": "'Tile'" } } } } } ],
+      "selection": [ { "properties": { "singleSelect": { "expr": { "Literal": { "Value": "true" } } }, "selectAllCheckboxEnabled": { "expr": { "Literal": { "Value": "false" } } } } } ]
+    },
+    "visualContainerObjects": {
+      "background": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ],
+      "border": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ],
+      "title": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ],
+      "visualHeader": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ]
+    },
+    "drillFilterOtherVisuals": false
+  },
+  "filterConfig": { "filters": [ { "name": "DefaultFiltroRapido", "field": { "Column": { "Expression": { "SourceRef": { "Entity": "FiltroRapidoCarteira" } }, "Property": "Opção" } }, "type": "Categorical", "filter": { "Version": 2, "From": [ { "Name": "f", "Entity": "FiltroRapidoCarteira", "Type": 0 } ], "Where": [ { "Condition": { "In": { "Expressions": [ { "Column": { "Expression": { "SourceRef": { "Source": "f" } }, "Property": "Opção" } } ], "Values": [ [ { "Literal": { "Value": "'Todas'" } } ] ] } } } ] }, "howCreated": "User" } ] }
+}

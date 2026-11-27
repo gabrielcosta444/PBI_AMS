@@ -9,12 +9,14 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
-annotation PBI_QueryOrder = ["CardFields","ProposalDependencyTypes","Proposals","ProposalStateHistory","ProposalTechnicalLinks","TechnicalWorkItems"]
+annotation PBI_QueryOrder = ["CardFields","ProposalDependencyTypes","ModoBloqueio","FiltroRapidoCarteira","Proposals","ProposalStateHistory","ProposalTechnicalLinks","TechnicalWorkItems"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
 ref table CardFields
 ref table ProposalDependencyTypes
+ref table ModoBloqueio
+ref table FiltroRapidoCarteira
 ref table Proposals
 ref table ProposalStateHistory
 ref table ProposalTechnicalLinks

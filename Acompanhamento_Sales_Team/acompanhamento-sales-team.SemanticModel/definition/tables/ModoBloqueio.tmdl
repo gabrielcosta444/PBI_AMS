@@ -1,0 +1,27 @@
+table ModoBloqueio
+	lineageTag: 48e7731a-bf44-4c12-8f04-9431ef2d1781
+
+	column Modo
+		dataType: string
+		displayFolder: 'Carteira e Gargalos'
+		lineageTag: 4c080e01-f05c-43eb-b6be-c1ff2d06535f
+		summarizeBy: none
+		sourceColumn: [Modo]
+		sortByColumn: Ordem
+
+		annotation SummarizationSetBy = User
+
+	column Ordem
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 57e75f23-1d25-4d8f-b628-1f1f8c05919c
+		summarizeBy: sum
+		sourceColumn: [Ordem]
+
+		annotation SummarizationSetBy = User
+
+	partition ModoBloqueio = calculated
+		mode: import
+		source = DATATABLE("Modo", STRING, "Ordem", INTEGER, {{"Interno", 1}, {"Externo", 2}})
+

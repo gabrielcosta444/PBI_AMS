@@ -276,7 +276,7 @@ table _Medidas
 		displayFolder: 'Carteira e Gargalos'
 		lineageTag: c7117dd2-f8dc-4b84-ad76-40118fd4debe
 
-	/// Propostas abertas validas com Blocked = TRUE.
+	/// Bloqueio externo: propostas abertas validas com Blocked = TRUE.
 	measure 'Propostas bloqueadas' =
 			COALESCE(
 			    CALCULATE(
@@ -288,6 +288,44 @@ table _Medidas
 		formatString: #,0
 		displayFolder: 'Carteira e Gargalos'
 		lineageTag: d3f729d7-7747-43e7-80a7-6cc12f31ed12
+
+	/// Alias explicito para bloqueio externo, preservando a medida anterior usada em visuais existentes.
+	measure 'Propostas com bloqueio externo' = [Propostas bloqueadas]
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos'
+		lineageTag: 56b3a6d1-9f17-4f8e-b2ab-1c0ef2f39b8c
+
+	/// Bloqueio interno: propostas abertas validas com InternalBlock = TRUE.
+	measure 'Propostas com bloqueio interno' =
+			COALESCE(
+			    CALCULATE(
+			        [Carteira atual],
+			        KEEPFILTERS('Proposals'[InternalBlock] = TRUE())
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos'
+		lineageTag: 42a3c3dd-7fd3-40dc-af0c-2d08301a852a
+
+	/// Propostas abertas com ao menos um bloqueio; a contagem distinta evita duplicidade quando os dois campos estao ativos.
+	measure 'Propostas com bloqueio' =
+			COALESCE(
+			    CALCULATE(
+			        [Carteira atual],
+			        KEEPFILTERS(
+			            FILTER(
+			                'Proposals',
+			                'Proposals'[Blocked] = TRUE()
+			                    || 'Proposals'[InternalBlock] = TRUE()
+			            )
+			        )
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos'
+		lineageTag: 676bd17d-152c-4b5f-abd0-e8d9c927f5cc
 
 	/// Propostas abertas com TargetDate preenchida e anterior a hoje.
 	measure 'Propostas em atraso' =
@@ -760,15 +798,162 @@ table _Medidas
 		displayFolder: 'Carteira e Gargalos\Gráficos'
 		lineageTag: 03bc8fa9-36e8-4d60-8928-bbe710942ffd
 
-	/// Percentual da carteira aberta bloqueada no State atual.
+	/// Tipo selecionado no seletor desconectado da incidencia de bloqueios; o padrao e interno.
+	measure 'Tipo de bloqueio selecionado' =
+			SELECTEDVALUE(
+			    'ModoBloqueio'[Modo],
+			    "Interno"
+			)
+		formatString: @
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: 1a5661b1-fb53-47df-a9fc-034465ee22f6
+
+	/// Numerador dinamico da incidencia por State; muda somente entre bloqueio interno e externo.
+	measure 'Propostas com bloqueio no modo selecionado' =
+			SWITCH(
+			    [Tipo de bloqueio selecionado],
+			    "Externo", [Propostas com bloqueio externo],
+			    [Propostas com bloqueio interno]
+			)
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: d6988bfc-2d12-4f2b-a63f-a48715e1aa04
+
+	/// Percentual da carteira aberta bloqueada no State atual, conforme o modo Interno/Externo selecionado.
 	measure '% de bloqueio por State' =
 			DIVIDE(
-			    [Propostas bloqueadas],
+			    [Propostas com bloqueio no modo selecionado],
 			    [Propostas abertas]
 			)
 		formatString: 0.0%
 		displayFolder: 'Carteira e Gargalos\Gráficos'
 		lineageTag: a373564b-bdea-4356-9848-ea40eb52612f
+
+	/// Propostas distintas com bloqueio interno, distribuiveis pela categoria da ponte ProposalDependencyTypes.
+	measure 'Propostas com bloqueio interno por dependência' =
+			VAR WorkItemsNoTipo = VALUES('ProposalDependencyTypes'[WorkItemId])
+			RETURN
+			    CALCULATE(
+			        [Propostas com bloqueio interno],
+			        TREATAS(
+			            WorkItemsNoTipo,
+			            'Proposals'[WorkItemId]
+			        )
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: 0da4ea56-f9eb-4e2f-a4f1-b0395c7e43a8
+
+	/// Propostas distintas com bloqueio externo, distribuiveis pela categoria da ponte ProposalDependencyTypes.
+	measure 'Propostas com bloqueio externo por dependência' =
+			VAR WorkItemsNoTipo = VALUES('ProposalDependencyTypes'[WorkItemId])
+			RETURN
+			    CALCULATE(
+			        [Propostas com bloqueio externo],
+			        TREATAS(
+			            WorkItemsNoTipo,
+			            'Proposals'[WorkItemId]
+			        )
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: 4145eaef-5cdc-4282-9d9a-861ca59094f8
+
+	/// Propostas abertas com prazo entre hoje e os proximos sete dias, sem incluir atrasadas.
+	measure 'Propostas com vencimento próximo' =
+			VAR Hoje = TODAY()
+			RETURN
+			    COALESCE(
+			        CALCULATE(
+			            [Carteira atual],
+			            KEEPFILTERS(
+			                FILTER(
+			                    CALCULATETABLE(
+			                        VALUES('Proposals'[TargetDate]),
+			                        REMOVEFILTERS('Calendario')
+			                    ),
+			                    NOT ISBLANK('Proposals'[TargetDate])
+			                        && DATEVALUE('Proposals'[TargetDate]) >= Hoje
+			                        && DATEVALUE('Proposals'[TargetDate]) <= Hoje + 7
+			                )
+			            )
+			        ),
+			        0
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos'
+		lineageTag: a8a7f8ef-678d-4cba-b4c7-8100a9f9db6d
+
+	/// Rótulo dinamico dos botões de filtro rapido; cada contagem ignora apenas a propria seleção desconectada.
+	measure 'Rótulo filtro rápido' =
+			VAR Opcao = SELECTEDVALUE('FiltroRapidoCarteira'[Opção])
+			VAR Quantidade =
+			    SWITCH(
+			        Opcao,
+			        "Todas", CALCULATE([Propostas abertas], REMOVEFILTERS('FiltroRapidoCarteira')),
+			        "Bloqueio externo", CALCULATE([Propostas com bloqueio externo], REMOVEFILTERS('FiltroRapidoCarteira')),
+			        "Bloqueio interno", CALCULATE([Propostas com bloqueio interno], REMOVEFILTERS('FiltroRapidoCarteira')),
+			        "Atrasadas", CALCULATE([Propostas em atraso], REMOVEFILTERS('FiltroRapidoCarteira')),
+			        "Sem movimentação", CALCULATE([Propostas sem movimentação > 15 dias], REMOVEFILTERS('FiltroRapidoCarteira')),
+			        "Vencimento próximo", CALCULATE([Propostas com vencimento próximo], REMOVEFILTERS('FiltroRapidoCarteira')),
+			        0
+			    )
+			RETURN
+			    COALESCE(Opcao, "")
+			        & " ("
+			        & FORMAT(COALESCE(Quantidade, 0), "#,0")
+			        & ")"
+		formatString: @
+		displayFolder: 'Carteira e Gargalos\Tabela'
+		lineageTag: 1bf7e64d-c2b1-4a90-9611-bcbf4a212e8e
+
+	/// Filtro de linhas da tabela operacional: aplica a opção rápida e, quando escolhido, a categoria de dependência da ponte.
+	measure 'Exibir proposta na tabela' =
+			VAR WorkItemAtual = SELECTEDVALUE('Proposals'[WorkItemId])
+			VAR Opcao = SELECTEDVALUE('FiltroRapidoCarteira'[Opção], "Todas")
+			VAR Hoje = TODAY()
+			VAR PropostaAberta = CALCULATE([Propostas abertas]) > 0
+			VAR DependenciaSelecionada = ISFILTERED('ProposalDependencyTypes'[DependencyType])
+			VAR TemDependenciaSelecionada =
+			    CALCULATE(
+			        COUNTROWS('ProposalDependencyTypes'),
+			        TREATAS(
+			            { WorkItemAtual },
+			            'ProposalDependencyTypes'[WorkItemId]
+			        )
+			    ) > 0
+			VAR PassaFiltroRapido =
+			    SWITCH(
+			        Opcao,
+			        "Todas", TRUE(),
+			        "Bloqueio externo", SELECTEDVALUE('Proposals'[Blocked]) = TRUE(),
+			        "Bloqueio interno", SELECTEDVALUE('Proposals'[InternalBlock]) = TRUE(),
+			        "Atrasadas",
+			            VAR Prazo = SELECTEDVALUE('Proposals'[TargetDate])
+			            RETURN NOT ISBLANK(Prazo) && DATEVALUE(Prazo) < Hoje,
+			        "Sem movimentação",
+			            VAR Alteracao = SELECTEDVALUE('Proposals'[ChangedDate])
+			            RETURN NOT ISBLANK(Alteracao) && DATEVALUE(Alteracao) < Hoje - 15,
+			        "Vencimento próximo",
+			            VAR Prazo = SELECTEDVALUE('Proposals'[TargetDate])
+			            RETURN
+			                NOT ISBLANK(Prazo)
+			                    && DATEVALUE(Prazo) >= Hoje
+			                    && DATEVALUE(Prazo) <= Hoje + 7,
+			        FALSE()
+			    )
+			RETURN
+			    IF(
+			        NOT ISBLANK(WorkItemAtual)
+			            && PropostaAberta
+			            && PassaFiltroRapido
+			            && (NOT DependenciaSelecionada || TemDependenciaSelecionada),
+			        1,
+			        0
+			    )
+		formatString: 0
+		displayFolder: 'Carteira e Gargalos\Tabela'
+		lineageTag: f0e13d90-c0ad-4763-a4e7-4d1b355791ea
 
 	column Placeholder
 		dataType: string

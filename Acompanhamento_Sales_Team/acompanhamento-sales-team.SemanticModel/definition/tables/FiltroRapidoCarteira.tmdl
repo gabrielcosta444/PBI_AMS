@@ -1,0 +1,39 @@
+table FiltroRapidoCarteira
+	lineageTag: 53cfeacf-094b-4a5a-84b8-e17168d86037
+
+	column Opção
+		dataType: string
+		displayFolder: 'Carteira e Gargalos'
+		lineageTag: 0acbc5b8-cd38-45e5-a2c2-ed1d5fdf61f4
+		summarizeBy: none
+		sourceColumn: [Opção]
+		sortByColumn: Ordem
+
+		annotation SummarizationSetBy = User
+
+	column Ordem
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4f08473c-5f1f-46be-a376-840ad3ef74c2
+		summarizeBy: sum
+		sourceColumn: [Ordem]
+
+		annotation SummarizationSetBy = User
+
+	partition FiltroRapidoCarteira = calculated
+		mode: import
+		source =
+			DATATABLE(
+			    "Opção", STRING,
+			    "Ordem", INTEGER,
+			    {
+			        {"Todas", 1},
+			        {"Bloqueio externo", 2},
+			        {"Bloqueio interno", 3},
+			        {"Atrasadas", 4},
+			        {"Sem movimentação", 5},
+			        {"Vencimento próximo", 6}
+			    }
+			)
+

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "filter_dependency",
+  "position": { "x": 24, "y": 770, "z": 300, "height": 48, "width": 236, "tabOrder": 36 },
+  "visual": {
+    "visualType": "slicer",
+    "query": { "queryState": { "Values": { "projections": [ { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "ProposalDependencyTypes" } }, "Property": "DependencyType" } }, "queryRef": "ProposalDependencyTypes.DependencyType", "nativeQueryRef": "DependencyType" } ] } } },
+    "objects": {
+      "data": [ { "properties": { "mode": { "expr": { "Literal": { "Value": "'Dropdown'" } } } } } ],
+      "header": [ { "properties": { "show": { "expr": { "Literal": { "Value": "true" } } }, "titleText": { "expr": { "Literal": { "Value": "'Tipo de dependência'" } } } } } ],
+      "selection": [ { "properties": { "selectAllCheckboxEnabled": { "expr": { "Literal": { "Value": "true" } } }, "singleSelect": { "expr": { "Literal": { "Value": "false" } } } } } ]
+    },
+    "visualContainerObjects": {
+      "background": [ { "properties": { "show": { "expr": { "Literal": { "Value": "true" } } }, "color": { "solid": { "color": { "expr": { "Literal": { "Value": "'#F5F5F7'" } } } } } } } ],
+      "border": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ],
+      "visualHeader": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

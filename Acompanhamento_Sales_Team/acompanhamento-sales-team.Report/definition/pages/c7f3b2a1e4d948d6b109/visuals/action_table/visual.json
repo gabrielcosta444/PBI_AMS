@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "action_table",
-  "position": { "x": 28, "y": 740, "z": 200, "height": 312, "width": 1840, "tabOrder": 20 },
+  "position": { "x": 308, "y": 630, "z": 200, "height": 400, "width": 1584, "tabOrder": 20 },
   "visual": {
     "visualType": "tableEx",
     "query": { "queryState": { "Values": { "projections": [
@@ -13,6 +13,7 @@
       { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "_Medidas" } }, "Property": "Idade proposta (dias)" } }, "queryRef": "_Medidas.Idade proposta (dias)", "nativeQueryRef": "Idade proposta (dias)", "displayName": "Idade (dias)" },
       { "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "_Medidas" } }, "Property": "Dias no State atual" } }, "queryRef": "_Medidas.Dias no State atual", "nativeQueryRef": "Dias no State atual", "displayName": "Dias no State" },
       { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "Proposals" } }, "Property": "Blocked" } }, "queryRef": "Proposals.Blocked", "nativeQueryRef": "Blocked", "displayName": "Bloqueada?" },
+      { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "Proposals" } }, "Property": "InternalBlock" } }, "queryRef": "Proposals.InternalBlock", "nativeQueryRef": "InternalBlock", "displayName": "Bloqueio interno?" },
       { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "Proposals" } }, "Property": "TargetDate" } }, "queryRef": "Proposals.TargetDate", "nativeQueryRef": "TargetDate", "displayName": "Prazo" },
       { "field": { "Column": { "Expression": { "SourceRef": { "Entity": "Proposals" } }, "Property": "DependencyType" } }, "queryRef": "Proposals.DependencyType", "nativeQueryRef": "DependencyType", "displayName": "Dependência" }
     ] } } },
@@ -22,11 +23,12 @@
       "values": [ { "properties": { "fontSize": { "expr": { "Literal": { "Value": "10D" } } }, "fontColor": { "solid": { "color": { "expr": { "Literal": { "Value": "'#34313B'" } } } } } } } ]
     },
     "visualContainerObjects": {
-      "background": [ { "properties": { "show": { "expr": { "Literal": { "Value": "true" } } }, "color": { "solid": { "color": { "expr": { "Literal": { "Value": "'#FFFFFF'" } } } } } } } ],
-      "border": [ { "properties": { "show": { "expr": { "Literal": { "Value": "true" } } }, "color": { "solid": { "color": { "expr": { "Literal": { "Value": "'#E1DEE4'" } } } } } } } ],
-      "title": [ { "properties": { "show": { "expr": { "Literal": { "Value": "true" } } }, "titleText": { "expr": { "Literal": { "Value": "'Propostas que exigem ação'" } } }, "fontSize": { "expr": { "Literal": { "Value": "13D" } } } } } ],
+      "background": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ],
+      "border": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ],
+      "title": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ],
       "visualHeader": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ]
     },
     "drillFilterOtherVisuals": true
-  }
+  },
+  "filterConfig": { "filters": [ { "name": "Filter_ExibirProposta", "field": { "Measure": { "Expression": { "SourceRef": { "Entity": "_Medidas" } }, "Property": "Exibir proposta na tabela" } }, "type": "Advanced", "filter": { "Version": 2, "From": [ { "Name": "m", "Entity": "_Medidas", "Type": 0 } ], "Where": [ { "Condition": { "Comparison": { "ComparisonKind": 0, "Left": { "Measure": { "Expression": { "SourceRef": { "Source": "m" } }, "Property": "Exibir proposta na tabela" } }, "Right": { "Literal": { "Value": "1L" } } } } } ] }, "howCreated": "User" } ] }
 }
