@@ -68,22 +68,20 @@ table FiltroRapidoCarteira
 		displayFolder: 'Carteira e Gargalos\Apoio UI'
 		lineageTag: 912a7a7f-8126-4cda-9b9b-ba8d2c312f02
 
-	measure 'CG Contagem do filtro rápido' =
-			VAR Opcao = SELECTEDVALUE('FiltroRapidoCarteira'[Opção])
-			RETURN
-			    COALESCE(
-			        SWITCH(
-			            Opcao,
-			            "Todas", [Propostas abertas],
-			            "Bloqueio externo", [Propostas com bloqueio externo],
-			            "Bloqueio interno", [Propostas com bloqueio interno],
-			            "Atrasadas", [CG Em atraso],
-			            "Sem avanço", [CG Sem avanço >15 dias],
-			            "Vencimento próximo", [CG Vencimento próximo],
-			            0
+	measure 'CG Contagem do filtro rápido' = ```
+			
+			COALESCE(
+			    CALCULATE(
+			        SUMX(
+			            VALUES('Proposals'[WorkItemId]),
+			            [CG Exibir proposta na tabela]
 			        ),
-			        0
-			    )
+			        REMOVEFILTERS('Calendario')
+			    ),
+			    0
+			)
+			
+			```
 		formatString: #,0
 		displayFolder: 'Carteira e Gargalos\Apoio UI'
 		lineageTag: 754af3c2-7b62-464b-9169-d14706196405
@@ -100,8 +98,39 @@ table FiltroRapidoCarteira
 			    SELECTEDVALUE('Proposals'[StateChangeDate])
 			VAR Prazo = SELECTEDVALUE('Proposals'[TargetDate])
 			VAR Aberta = CALCULATE([Carteira atual]) > 0
+			
+			VAR BloqueioExterno =
+			    SELECTEDVALUE('Proposals'[Blocked]) = TRUE()
+			
+			VAR BloqueioInterno =
+			    SELECTEDVALUE('Proposals'[InternalBlock]) = TRUE()
+			
+			VAR Atrasada =
+			    EtapaAntesAprovacao
+			        && NOT ISBLANK(Prazo)
+			        && DATEVALUE(Prazo) < Hoje
+			
+			VAR SemAvanco =
+			    EtapaAntesAprovacao
+			        && NOT ISBLANK(DataAlteracaoEtapa)
+			        && DATEVALUE(DataAlteracaoEtapa) < Hoje - 15
+			
+			VAR VencimentoProximo =
+			    EtapaAntesAprovacao
+			        && NOT ISBLANK(Prazo)
+			        && DATEVALUE(Prazo) >= Hoje
+			        && DATEVALUE(Prazo) <= Hoje + 7
+			
+			VAR ExigeAcao =
+			    BloqueioExterno
+			        || BloqueioInterno
+			        || Atrasada
+			        || SemAvanco
+			        || VencimentoProximo
+			
 			VAR TipoDependenciaFiltrado =
 			    ISFILTERED('ProposalDependencyTypes'[DependencyType])
+			
 			VAR TipoPresente =
 			    CALCULATE(
 			        COUNTROWS('ProposalDependencyTypes'),
@@ -110,29 +139,19 @@ table FiltroRapidoCarteira
 			            'ProposalDependencyTypes'[WorkItemId]
 			        )
 			    ) > 0
+			
 			VAR PassaRapido =
 			    SWITCH(
 			        Opcao,
-			        "Todas", TRUE(),
-			        "Bloqueio externo",
-			            SELECTEDVALUE('Proposals'[Blocked]) = TRUE(),
-			        "Bloqueio interno",
-			            SELECTEDVALUE('Proposals'[InternalBlock]) = TRUE(),
-			        "Atrasadas",
-			            EtapaAntesAprovacao
-			                && NOT ISBLANK(Prazo)
-			                && DATEVALUE(Prazo) < Hoje,
-			        "Sem avanço",
-			            EtapaAntesAprovacao
-			                && NOT ISBLANK(DataAlteracaoEtapa)
-			                && DATEVALUE(DataAlteracaoEtapa) < Hoje - 15,
-			        "Vencimento próximo",
-			            EtapaAntesAprovacao
-			                && NOT ISBLANK(Prazo)
-			                && DATEVALUE(Prazo) >= Hoje
-			                && DATEVALUE(Prazo) <= Hoje + 7,
+			        "Todas", ExigeAcao,
+			        "Bloqueio externo", BloqueioExterno,
+			        "Bloqueio interno", BloqueioInterno,
+			        "Atrasadas", Atrasada,
+			        "Sem avanço", SemAvanco,
+			        "Vencimento próximo", VencimentoProximo,
 			        FALSE()
 			    )
+			
 			RETURN
 			    IF(
 			        NOT ISBLANK(IdProposta)
