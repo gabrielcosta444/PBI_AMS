@@ -909,48 +909,7 @@ table _Medidas
 
 	/// Filtro de linhas da tabela operacional: aplica a opção rápida e, quando escolhido, a categoria de dependência da ponte.
 	measure 'Exibir proposta na tabela' =
-			VAR WorkItemAtual = SELECTEDVALUE('Proposals'[WorkItemId])
-			VAR Opcao = SELECTEDVALUE('FiltroRapidoCarteira'[Opção], "Todas")
-			VAR Hoje = TODAY()
-			VAR PropostaAberta = CALCULATE([Propostas abertas]) > 0
-			VAR DependenciaSelecionada = ISFILTERED('ProposalDependencyTypes'[DependencyType])
-			VAR TemDependenciaSelecionada =
-			    CALCULATE(
-			        COUNTROWS('ProposalDependencyTypes'),
-			        TREATAS(
-			            { WorkItemAtual },
-			            'ProposalDependencyTypes'[WorkItemId]
-			        )
-			    ) > 0
-			VAR PassaFiltroRapido =
-			    SWITCH(
-			        Opcao,
-			        "Todas", TRUE(),
-			        "Bloqueio externo", SELECTEDVALUE('Proposals'[Blocked]) = TRUE(),
-			        "Bloqueio interno", SELECTEDVALUE('Proposals'[InternalBlock]) = TRUE(),
-			        "Atrasadas",
-			            VAR Prazo = SELECTEDVALUE('Proposals'[TargetDate])
-			            RETURN NOT ISBLANK(Prazo) && DATEVALUE(Prazo) < Hoje,
-			        "Sem movimentação",
-			            VAR Alteracao = SELECTEDVALUE('Proposals'[ChangedDate])
-			            RETURN NOT ISBLANK(Alteracao) && DATEVALUE(Alteracao) < Hoje - 15,
-			        "Vencimento próximo",
-			            VAR Prazo = SELECTEDVALUE('Proposals'[TargetDate])
-			            RETURN
-			                NOT ISBLANK(Prazo)
-			                    && DATEVALUE(Prazo) >= Hoje
-			                    && DATEVALUE(Prazo) <= Hoje + 7,
-			        FALSE()
-			    )
-			RETURN
-			    IF(
-			        NOT ISBLANK(WorkItemAtual)
-			            && PropostaAberta
-			            && PassaFiltroRapido
-			            && (NOT DependenciaSelecionada || TemDependenciaSelecionada),
-			        1,
-			        0
-			    )
+			'FiltroRapidoCarteira'[CG Exibir proposta na tabela]
 		formatString: 0
 		displayFolder: 'Carteira e Gargalos\Tabela'
 		lineageTag: f0e13d90-c0ad-4763-a4e7-4d1b355791ea

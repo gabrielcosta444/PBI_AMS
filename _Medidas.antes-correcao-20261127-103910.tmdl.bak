@@ -1,0 +1,970 @@
+table _Medidas
+	lineageTag: 35802db6-655e-4181-9a5a-2440df643336
+
+	/// Solicitacoes criadas no periodo; desconsidera propostas duplicadas ou demandas criadas incorretamente.
+	measure 'Solicitações recebidas' =
+			COALESCE(
+			    CALCULATE(
+			        DISTINCTCOUNT('Proposals'[WorkItemId]),
+			        'Proposals'[WorkItemType] = "Proposal",
+			        KEEPFILTERS(
+			            NOT (
+			                'Proposals'[ReasonforDiscarded] IN {
+			                    "Duplicate Proposal",
+			                    "Incorrect Demand Creation"
+			                }
+			            )
+			        )
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: Visão Geral
+		lineageTag: b527080e-61da-4335-a707-77cb776fa7e7
+
+	/// Primeira entrada da proposta em Approval no intervalo do calendario.
+	measure 'Propostas submetidas' =
+			VAR DatasSelecionadas = VALUES('Calendario'[Date])
+			RETURN
+			    COALESCE(
+			        CALCULATE(
+			            COUNTROWS(
+			                FILTER(
+			                    SUMMARIZE(
+			                        FILTER(
+			                            'ProposalStateHistory',
+			                            'ProposalStateHistory'[State] = "Approval"
+			                        ),
+			                        'ProposalStateHistory'[WorkItemId],
+			                        "@PrimeiraEntrada",
+			                        MIN('ProposalStateHistory'[DataEntrada])
+			                    ),
+			                    NOT ISBLANK([@PrimeiraEntrada])
+			                        && CONTAINS(
+			                            DatasSelecionadas,
+			                            'Calendario'[Date],
+			                            INT([@PrimeiraEntrada])
+			                        )
+			                )
+			            ),
+			            CROSSFILTER(
+			                'Proposals'[CreatedDate],
+			                'Calendario'[Date],
+			                NONE
+			            )
+			        ),
+			        0
+			    )
+		formatString: #,0
+		displayFolder: Visão Geral
+		lineageTag: d30cc91f-0017-4f1c-a833-db9f774f3664
+
+	/// Closed e Discarded igual a FALSE, considerando ClosedDate.
+	measure 'Propostas aceitas' =
+			COALESCE(
+			    CALCULATE(
+			        DISTINCTCOUNT('Proposals'[WorkItemId]),
+			        'Proposals'[State] = "Closed",
+			        'Proposals'[Discarded] == FALSE(),
+			        NOT ISBLANK('Proposals'[ClosedDate]),
+			        CROSSFILTER(
+			            'Proposals'[CreatedDate],
+			            'Calendario'[Date],
+			            NONE
+			        ),
+			        USERELATIONSHIP(
+			            'Proposals'[ClosedDate],
+			            'Calendario'[Date]
+			        )
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: Visão Geral
+		lineageTag: 05c5969d-5843-46fc-a2da-ad2712e5be6a
+
+	/// Closed, Discarded=TRUE e ClosedDate no periodo; nao conta duplicidades, criacoes indevidas nem transferencias ao suporte.
+	measure 'Propostas recusadas' =
+			COALESCE(
+			    CALCULATE(
+			        DISTINCTCOUNT('Proposals'[WorkItemId]),
+			        'Proposals'[State] = "Closed",
+			        'Proposals'[Discarded] == TRUE(),
+			        NOT ISBLANK('Proposals'[ClosedDate]),
+			        KEEPFILTERS(
+			            NOT (
+			                'Proposals'[ReasonforDiscarded] IN {
+			                    "Duplicate Proposal",
+			                    "Incorrect Demand Creation",
+			                    "Transferred to Support Team"
+			                }
+			            )
+			        ),
+			        CROSSFILTER(
+			            'Proposals'[CreatedDate],
+			            'Calendario'[Date],
+			            NONE
+			        ),
+			        USERELATIONSHIP(
+			            'Proposals'[ClosedDate],
+			            'Calendario'[Date]
+			        )
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: Visão Geral
+		lineageTag: f802f2ef-014d-4a36-97dc-494a8d4a5688
+
+	/// Denominador da taxa de aceite.
+	measure 'Decisões comerciais' = [Propostas aceitas] + [Propostas recusadas]
+		formatString: #,0
+		displayFolder: Visão Geral
+		lineageTag: 40caa719-caf5-4210-9d38-8df7907461f2
+
+	/// Aceitas divididas pelas decisoes comerciais. Em branco sem decisoes.
+	measure 'Taxa de aceite' =
+			DIVIDE(
+			    [Propostas aceitas],
+			    [Decisões comerciais]
+			)
+		formatString: 0.0%
+		displayFolder: Visão Geral
+		lineageTag: 58d4f126-1a12-44d9-8b10-eea972405f01
+
+	/// Closed e Discarded vazio, independentemente do periodo.
+	measure 'Validação - fechadas sem classificação' =
+			COALESCE(
+			    CALCULATE(
+			        DISTINCTCOUNT('Proposals'[WorkItemId]),
+			        'Proposals'[State] = "Closed",
+			        ISBLANK('Proposals'[Discarded]),
+			        REMOVEFILTERS('Calendario')
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: Validação
+		lineageTag: 3d2b5f97-b586-4a76-9d9b-ec0255ae0d5f
+
+	/// Closed e ClosedDate vazio, independentemente do periodo.
+	measure 'Validação - fechadas sem data' =
+			COALESCE(
+			    CALCULATE(
+			        DISTINCTCOUNT('Proposals'[WorkItemId]),
+			        'Proposals'[State] = "Closed",
+			        ISBLANK('Proposals'[ClosedDate]),
+			        REMOVEFILTERS('Calendario')
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: Validação
+		lineageTag: fc048e7b-b3eb-4a4b-8e37-790061f0e55e
+
+	/// Contagem historica das solicitacoes administrativas removidas de Recebidas.
+	measure 'Validação - solicitações administrativas' =
+			COALESCE(
+			    CALCULATE(
+			        DISTINCTCOUNT('Proposals'[WorkItemId]),
+			        'Proposals'[WorkItemType] = "Proposal",
+			        'Proposals'[ReasonforDiscarded] IN {
+			            "Duplicate Proposal",
+			            "Incorrect Demand Creation"
+			        },
+			        REMOVEFILTERS('Calendario')
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: Validação
+
+	/// Contagem historica dos encaminhamentos ao suporte, que nao sao recusas comerciais.
+	measure 'Validação - transferidas ao suporte' =
+			COALESCE(
+			    CALCULATE(
+			        DISTINCTCOUNT('Proposals'[WorkItemId]),
+			        'Proposals'[State] = "Closed",
+			        'Proposals'[Discarded] == TRUE(),
+			        'Proposals'[ReasonforDiscarded] = "Transferred to Support Team",
+			        REMOVEFILTERS('Calendario')
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: Validação
+
+	/// Quantidade atual de propostas em States nao fechados; independe do periodo, mas respeita os demais filtros.
+	measure 'Carteira atual' =
+			COALESCE(
+			    CALCULATE(
+			        DISTINCTCOUNT('Proposals'[WorkItemId]),
+			        KEEPFILTERS('Proposals'[WorkItemType] = "Proposal"),
+			        KEEPFILTERS('Proposals'[State] <> "Closed"),
+			        KEEPFILTERS(NOT ISBLANK('Proposals'[State])),
+			        KEEPFILTERS(
+			            NOT (
+			                'Proposals'[ReasonforDiscarded] IN {
+			                    "Duplicate Proposal",
+			                    "Incorrect Demand Creation"
+			                }
+			            )
+			        ),
+			        REMOVEFILTERS('Calendario')
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: 'Visão Geral\Gráficos'
+
+	/// Participacao do State na carteira aberta. Use como tooltip da carteira atual por State.
+	measure 'Carteira atual (% por State)' =
+			DIVIDE(
+			    [Carteira atual],
+			    CALCULATE(
+			        [Carteira atual],
+			        REMOVEFILTERS('Proposals'[State])
+			    )
+			)
+		formatString: 0.0%
+		displayFolder: 'Visão Geral\Gráficos'
+
+	/// Percentual de recusas dentre as decisoes comerciais; pode ser exibido no tooltip por responsavel.
+	measure 'Taxa de recusa' =
+			DIVIDE(
+			    [Propostas recusadas],
+			    [Decisões comerciais]
+			)
+		formatString: 0.0%
+		displayFolder: 'Visão Geral\Gráficos'
+
+	/// Recusas comerciais com ReasonforDiscarded preenchido (sem nulos, vazios ou so espacos).
+	/// As exclusoes administrativas e o periodo de fechamento ja estao na medida base Propostas recusadas.
+	measure 'Recusas com motivo informado' =
+			CALCULATE(
+			    [Propostas recusadas],
+			    KEEPFILTERS(
+			        FILTER(
+			            VALUES('Proposals'[ReasonforDiscarded]),
+			            LEN(TRIM('Proposals'[ReasonforDiscarded] & "")) > 0
+			        )
+			    )
+			)
+		formatString: #,0
+		displayFolder: 'Visão Geral\Gráficos'
+
+	/// Recusas comerciais sem motivo informado no contexto atual; nao devem aparecer no grafico de motivos.
+	measure 'Validação - recusas sem motivo' =
+			COALESCE(
+			    CALCULATE(
+			        [Propostas recusadas],
+			        KEEPFILTERS(
+			            FILTER(
+			                VALUES('Proposals'[ReasonforDiscarded]),
+			                LEN(TRIM('Proposals'[ReasonforDiscarded] & "")) = 0
+			            )
+			        )
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: Validação
+
+	/// Carteira valida atual em qualquer State aberto; nao e uma coorte historica.
+	measure 'Propostas abertas' = [Carteira atual]
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos'
+		lineageTag: c7117dd2-f8dc-4b84-ad76-40118fd4debe
+
+	/// Bloqueio externo: propostas abertas validas com Blocked = TRUE.
+	measure 'Propostas bloqueadas' =
+			COALESCE(
+			    CALCULATE(
+			        [Carteira atual],
+			        KEEPFILTERS('Proposals'[Blocked] == TRUE())
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos'
+		lineageTag: d3f729d7-7747-43e7-80a7-6cc12f31ed12
+
+	/// Alias explicito para bloqueio externo, preservando a medida anterior usada em visuais existentes.
+	measure 'Propostas com bloqueio externo' = [Propostas bloqueadas]
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos'
+		lineageTag: 56b3a6d1-9f17-4f8e-b2ab-1c0ef2f39b8c
+
+	/// Bloqueio interno: propostas abertas validas com InternalBlock = TRUE.
+	measure 'Propostas com bloqueio interno' =
+			COALESCE(
+			    CALCULATE(
+			        [Carteira atual],
+			        KEEPFILTERS('Proposals'[InternalBlock] = TRUE())
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos'
+		lineageTag: 42a3c3dd-7fd3-40dc-af0c-2d08301a852a
+
+	/// Propostas abertas com ao menos um bloqueio; a contagem distinta evita duplicidade quando os dois campos estao ativos.
+	measure 'Propostas com bloqueio' =
+			COALESCE(
+			    CALCULATE(
+			        [Carteira atual],
+			        KEEPFILTERS(
+			            FILTER(
+			                'Proposals',
+			                'Proposals'[Blocked] = TRUE()
+			                    || 'Proposals'[InternalBlock] = TRUE()
+			            )
+			        )
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos'
+		lineageTag: 676bd17d-152c-4b5f-abd0-e8d9c927f5cc
+
+	/// Propostas abertas com TargetDate preenchida e anterior a hoje.
+	measure 'Propostas em atraso' =
+			VAR Hoje = TODAY()
+			RETURN
+			    COALESCE(
+			        CALCULATE(
+			            [Carteira atual],
+			            KEEPFILTERS(
+			                FILTER(
+			                    CALCULATETABLE(
+			                        VALUES('Proposals'[TargetDate]),
+			                        REMOVEFILTERS('Calendario')
+			                    ),
+			                    NOT ISBLANK('Proposals'[TargetDate])
+			                        && DATEVALUE('Proposals'[TargetDate]) < Hoje
+			                )
+			            )
+			        ),
+			        0
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos'
+		lineageTag: 2f54a88d-3c70-4355-a577-4d53c36c66da
+
+	/// Propostas abertas sem alteracao ha mais de 15 dias, usando ChangedDate.
+	measure 'Propostas sem movimentação > 15 dias' =
+			VAR Hoje = TODAY()
+			RETURN
+			    COALESCE(
+			        CALCULATE(
+			            [Carteira atual],
+			            KEEPFILTERS(
+			                FILTER(
+			                    CALCULATETABLE(
+			                        VALUES('Proposals'[ChangedDate]),
+			                        REMOVEFILTERS('Calendario')
+			                    ),
+			                    NOT ISBLANK('Proposals'[ChangedDate])
+			                        && DATEVALUE('Proposals'[ChangedDate]) < Hoje - 15
+			                )
+			            )
+			        ),
+			        0
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos'
+		lineageTag: b49856ba-1c70-449d-86b7-2f0012e3dcc5
+
+	/// Mediana da idade total, em dias, das propostas abertas validas.
+	measure 'Idade mediana da carteira (dias)' =
+			VAR Hoje = TODAY()
+			VAR CarteiraValida =
+			    FILTER(
+			        CALCULATETABLE(
+			            'Proposals',
+			            REMOVEFILTERS('Calendario'),
+			            KEEPFILTERS('Proposals'[WorkItemType] = "Proposal"),
+			            KEEPFILTERS('Proposals'[State] <> "Closed"),
+			            KEEPFILTERS(NOT ISBLANK('Proposals'[State])),
+			            KEEPFILTERS(
+			                NOT (
+			                    'Proposals'[ReasonforDiscarded] IN {
+			                        "Duplicate Proposal",
+			                        "Incorrect Demand Creation"
+			                    }
+			                )
+			            )
+			        ),
+			        NOT ISBLANK('Proposals'[CreatedDate])
+			    )
+			RETURN
+			    COALESCE(
+			        MEDIANX(
+			            CarteiraValida,
+			            DATEDIFF(DATEVALUE('Proposals'[CreatedDate]), Hoje, DAY)
+			        ),
+			        0
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos'
+		lineageTag: acb9c5a1-db3e-4724-a504-b43440eafac6
+
+	/// Idade total da proposta no contexto da linha, em dias.
+	measure 'Idade proposta (dias)' =
+			VAR DataCriacao =
+			    CALCULATE(
+			        MIN('Proposals'[CreatedDate]),
+			        REMOVEFILTERS('Calendario')
+			    )
+			RETURN
+			    IF(
+			        ISBLANK(DataCriacao),
+			        BLANK(),
+			        MAX(0, DATEDIFF(DATEVALUE(DataCriacao), TODAY(), DAY))
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos'
+		lineageTag: d1d13c30-a6ba-48a5-9c16-7fa2b9f3d10a
+
+	/// Dias desde a entrada no State atual; nao e duracao historica.
+	measure 'Dias no State atual' =
+			VAR DataState =
+			    CALCULATE(
+			        MIN('Proposals'[StateChangeDate]),
+			        REMOVEFILTERS('Calendario')
+			    )
+			RETURN
+			    IF(
+			        ISBLANK(DataState),
+			        BLANK(),
+			        MAX(0, DATEDIFF(DATEVALUE(DataState), TODAY(), DAY))
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos'
+		lineageTag: 3f4b2197-a616-4c42-9a29-ed6fed0648a5
+
+	/// Mediana dos dias no State atual para a carteira aberta.
+	measure 'Mediana dias no State atual' =
+			VAR Hoje = TODAY()
+			VAR CarteiraValida =
+			    FILTER(
+			        CALCULATETABLE(
+			            'Proposals',
+			            REMOVEFILTERS('Calendario'),
+			            KEEPFILTERS('Proposals'[WorkItemType] = "Proposal"),
+			            KEEPFILTERS('Proposals'[State] <> "Closed"),
+			            KEEPFILTERS(NOT ISBLANK('Proposals'[State])),
+			            KEEPFILTERS(
+			                NOT (
+			                    'Proposals'[ReasonforDiscarded] IN {
+			                        "Duplicate Proposal",
+			                        "Incorrect Demand Creation"
+			                    }
+			                )
+			            )
+			        ),
+			        NOT ISBLANK('Proposals'[StateChangeDate])
+			    )
+			RETURN
+			    MEDIANX(
+			        CarteiraValida,
+			        DATEDIFF(DATEVALUE('Proposals'[StateChangeDate]), Hoje, DAY)
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos'
+		lineageTag: 6832c5e2-f541-4122-bf5a-1a425f2474e4
+
+	/// Faixas de idade para o grafico 100% empilhado por State.
+	measure 'Carteira 0-7 dias' =
+			VAR Hoje = TODAY()
+			RETURN
+			    COALESCE(
+			        CALCULATE(
+			            [Propostas abertas],
+			            KEEPFILTERS(
+			                FILTER(
+			                    CALCULATETABLE(
+			                        VALUES('Proposals'[CreatedDate]),
+			                        REMOVEFILTERS('Calendario')
+			                    ),
+			                    NOT ISBLANK('Proposals'[CreatedDate])
+			                        && DATEVALUE('Proposals'[CreatedDate]) >= Hoje - 7
+			                        && DATEVALUE('Proposals'[CreatedDate]) <= Hoje
+			                )
+			            )
+			        ),
+			        0
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: 019da908-ff9a-4dce-89ad-4170ed1a7615
+
+	measure 'Carteira 8-15 dias' =
+			VAR Hoje = TODAY()
+			RETURN
+			    COALESCE(
+			        CALCULATE(
+			            [Propostas abertas],
+			            KEEPFILTERS(
+			                FILTER(
+			                    CALCULATETABLE(
+			                        VALUES('Proposals'[CreatedDate]),
+			                        REMOVEFILTERS('Calendario')
+			                    ),
+			                    DATEVALUE('Proposals'[CreatedDate]) >= Hoje - 15
+			                        && DATEVALUE('Proposals'[CreatedDate]) < Hoje - 7
+			                )
+			            )
+			        ),
+			        0
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: d600bf3c-6435-4513-89a2-8231506be662
+
+	measure 'Carteira 16-30 dias' =
+			VAR Hoje = TODAY()
+			RETURN
+			    COALESCE(
+			        CALCULATE(
+			            [Propostas abertas],
+			            KEEPFILTERS(
+			                FILTER(
+			                    CALCULATETABLE(
+			                        VALUES('Proposals'[CreatedDate]),
+			                        REMOVEFILTERS('Calendario')
+			                    ),
+			                    DATEVALUE('Proposals'[CreatedDate]) >= Hoje - 30
+			                        && DATEVALUE('Proposals'[CreatedDate]) < Hoje - 15
+			                )
+			            )
+			        ),
+			        0
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: f2a9eaae-89ce-4824-98a3-0c82b797bfaa
+
+	measure 'Carteira >30 dias' =
+			VAR Hoje = TODAY()
+			RETURN
+			    COALESCE(
+			        CALCULATE(
+			            [Propostas abertas],
+			            KEEPFILTERS(
+			                FILTER(
+			                    CALCULATETABLE(
+			                        VALUES('Proposals'[CreatedDate]),
+			                        REMOVEFILTERS('Calendario')
+			                    ),
+			                    NOT ISBLANK('Proposals'[CreatedDate])
+			                        && DATEVALUE('Proposals'[CreatedDate]) < Hoje - 30
+			                )
+			            )
+			        ),
+			        0
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: 897adae7-0d25-4a9a-abad-543585de2780
+
+	/// Diagnostico da carteira bloqueada sem BlockedReason preenchido.
+	measure 'Propostas bloqueadas sem motivo' =
+			COALESCE(
+			    CALCULATE(
+			        [Propostas bloqueadas],
+			        KEEPFILTERS(
+			            FILTER(
+			                CALCULATETABLE(
+			                    VALUES('Proposals'[BlockedReason]),
+			                    REMOVEFILTERS('Calendario')
+			                ),
+			                LEN(TRIM('Proposals'[BlockedReason] & "")) = 0
+			            )
+			        )
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: Validação
+		lineageTag: a07c3c40-538b-41b9-920a-4653a82d6a8c
+
+	/// Estados de trabalho definidos no prototipo: Next, Triage, Planning e Build.
+	measure 'Propostas em andamento' =
+			COALESCE(
+			    CALCULATE(
+			        [Propostas abertas],
+			        KEEPFILTERS(
+			            'Proposals'[State] IN {
+			                "Next",
+			                "Triage",
+			                "Planning",
+			                "Build"
+			            }
+			        )
+			    ),
+			    0
+			)
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos'
+		lineageTag: dd854e1d-2ab2-4f14-9013-2888e38886ed
+
+	/// Media de dias desde StateChangeDate ate hoje para a carteira aberta.
+	measure 'Tempo médio no State atual (dias)' =
+			VAR Hoje = TODAY()
+			VAR CarteiraValida =
+			    FILTER(
+			        CALCULATETABLE(
+			            'Proposals',
+			            REMOVEFILTERS('Calendario'),
+			            KEEPFILTERS('Proposals'[WorkItemType] = "Proposal"),
+			            KEEPFILTERS('Proposals'[State] <> "Closed"),
+			            KEEPFILTERS(NOT ISBLANK('Proposals'[State])),
+			            KEEPFILTERS(
+			                NOT (
+			                    'Proposals'[ReasonforDiscarded] IN {
+			                        "Duplicate Proposal",
+			                        "Incorrect Demand Creation"
+			                    }
+			                )
+			            )
+			        ),
+			        NOT ISBLANK('Proposals'[StateChangeDate])
+			    )
+			RETURN
+			    AVERAGEX(
+			        CarteiraValida,
+			        MAX(0, DATEDIFF(DATEVALUE('Proposals'[StateChangeDate]), Hoje, DAY))
+			    )
+		formatString: 0.0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: d5fbf76f-4d94-40af-9156-433da73c199d
+
+	/// Maior permanencia no State atual entre propostas abertas validas.
+	measure 'Maior permanência no State atual (dias)' =
+			VAR Hoje = TODAY()
+			VAR CarteiraValida =
+			    FILTER(
+			        CALCULATETABLE(
+			            'Proposals',
+			            REMOVEFILTERS('Calendario'),
+			            KEEPFILTERS('Proposals'[WorkItemType] = "Proposal"),
+			            KEEPFILTERS('Proposals'[State] <> "Closed"),
+			            KEEPFILTERS(NOT ISBLANK('Proposals'[State])),
+			            KEEPFILTERS(
+			                NOT (
+			                    'Proposals'[ReasonforDiscarded] IN {
+			                        "Duplicate Proposal",
+			                        "Incorrect Demand Creation"
+			                    }
+			                )
+			            )
+			        ),
+			        NOT ISBLANK('Proposals'[StateChangeDate])
+			    )
+			RETURN
+			    MAXX(
+			        CarteiraValida,
+			        MAX(0, DATEDIFF(DATEVALUE('Proposals'[StateChangeDate]), Hoje, DAY))
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: ad0886c8-9d07-448c-84f9-de5537d8c236
+
+	/// Faixa 0 a 7 dias no State atual.
+	measure 'State 0-7 dias' =
+			VAR Hoje = TODAY()
+			RETURN
+			    COALESCE(
+			        CALCULATE(
+			            [Propostas abertas],
+			            KEEPFILTERS(
+			                FILTER(
+			                    CALCULATETABLE(
+			                        VALUES('Proposals'[StateChangeDate]),
+			                        REMOVEFILTERS('Calendario')
+			                    ),
+			                    NOT ISBLANK('Proposals'[StateChangeDate])
+			                        && DATEVALUE('Proposals'[StateChangeDate]) >= Hoje - 7
+			                        && DATEVALUE('Proposals'[StateChangeDate]) <= Hoje
+			                )
+			            )
+			        ),
+			        0
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: efa62c4e-6a6c-45cd-b8a6-ae04de82969a
+
+	/// Faixa 8 a 15 dias no State atual.
+	measure 'State 8-15 dias' =
+			VAR Hoje = TODAY()
+			RETURN
+			    COALESCE(
+			        CALCULATE(
+			            [Propostas abertas],
+			            KEEPFILTERS(
+			                FILTER(
+			                    CALCULATETABLE(
+			                        VALUES('Proposals'[StateChangeDate]),
+			                        REMOVEFILTERS('Calendario')
+			                    ),
+			                    DATEVALUE('Proposals'[StateChangeDate]) >= Hoje - 15
+			                        && DATEVALUE('Proposals'[StateChangeDate]) < Hoje - 7
+			                )
+			            )
+			        ),
+			        0
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: 836a2587-1516-4adb-ac48-ebc36c13570b
+
+	/// Faixa 16 a 30 dias no State atual.
+	measure 'State 16-30 dias' =
+			VAR Hoje = TODAY()
+			RETURN
+			    COALESCE(
+			        CALCULATE(
+			            [Propostas abertas],
+			            KEEPFILTERS(
+			                FILTER(
+			                    CALCULATETABLE(
+			                        VALUES('Proposals'[StateChangeDate]),
+			                        REMOVEFILTERS('Calendario')
+			                    ),
+			                    DATEVALUE('Proposals'[StateChangeDate]) >= Hoje - 30
+			                        && DATEVALUE('Proposals'[StateChangeDate]) < Hoje - 15
+			                )
+			            )
+			        ),
+			        0
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: fdf0f872-0c6c-45d2-a595-96e250637551
+
+	/// Faixa 31 a 60 dias no State atual.
+	measure 'State 31-60 dias' =
+			VAR Hoje = TODAY()
+			RETURN
+			    COALESCE(
+			        CALCULATE(
+			            [Propostas abertas],
+			            KEEPFILTERS(
+			                FILTER(
+			                    CALCULATETABLE(
+			                        VALUES('Proposals'[StateChangeDate]),
+			                        REMOVEFILTERS('Calendario')
+			                    ),
+			                    DATEVALUE('Proposals'[StateChangeDate]) >= Hoje - 60
+			                        && DATEVALUE('Proposals'[StateChangeDate]) < Hoje - 30
+			                )
+			            )
+			        ),
+			        0
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: 46efd0b4-476f-4907-a3a7-7913558b04dd
+
+	/// Faixa acima de 60 dias no State atual.
+	measure 'State >60 dias' =
+			VAR Hoje = TODAY()
+			RETURN
+			    COALESCE(
+			        CALCULATE(
+			            [Propostas abertas],
+			            KEEPFILTERS(
+			                FILTER(
+			                    CALCULATETABLE(
+			                        VALUES('Proposals'[StateChangeDate]),
+			                        REMOVEFILTERS('Calendario')
+			                    ),
+			                    NOT ISBLANK('Proposals'[StateChangeDate])
+			                        && DATEVALUE('Proposals'[StateChangeDate]) < Hoje - 60
+			                )
+			            )
+			        ),
+			        0
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: 8de9cf8e-44c0-430e-a736-b6f69ee0f7a1
+
+	/// Quantidade acima de 60 dias no State atual; alias explicito para tooltip.
+	measure 'Propostas acima de 60 dias no State atual' = [State >60 dias]
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: 03bc8fa9-36e8-4d60-8928-bbe710942ffd
+
+	/// Tipo selecionado no seletor desconectado da incidencia de bloqueios; o padrao e interno.
+	measure 'Tipo de bloqueio selecionado' =
+			SELECTEDVALUE(
+			    'ModoBloqueio'[Modo],
+			    "Interno"
+			)
+		formatString: @
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: 1a5661b1-fb53-47df-a9fc-034465ee22f6
+
+	/// Numerador dinamico da incidencia por State; muda somente entre bloqueio interno e externo.
+	measure 'Propostas com bloqueio no modo selecionado' =
+			SWITCH(
+			    [Tipo de bloqueio selecionado],
+			    "Externo", [Propostas com bloqueio externo],
+			    [Propostas com bloqueio interno]
+			)
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: d6988bfc-2d12-4f2b-a63f-a48715e1aa04
+
+	/// Percentual da carteira aberta bloqueada no State atual, conforme o modo Interno/Externo selecionado.
+	measure '% de bloqueio por State' =
+			DIVIDE(
+			    [Propostas com bloqueio no modo selecionado],
+			    [Propostas abertas]
+			)
+		formatString: 0.0%
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: a373564b-bdea-4356-9848-ea40eb52612f
+
+	/// Propostas distintas com bloqueio interno, distribuiveis pela categoria da ponte ProposalDependencyTypes.
+	measure 'Propostas com bloqueio interno por dependência' =
+			VAR WorkItemsNoTipo = VALUES('ProposalDependencyTypes'[WorkItemId])
+			RETURN
+			    CALCULATE(
+			        [Propostas com bloqueio interno],
+			        TREATAS(
+			            WorkItemsNoTipo,
+			            'Proposals'[WorkItemId]
+			        )
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: 0da4ea56-f9eb-4e2f-a4f1-b0395c7e43a8
+
+	/// Propostas distintas com bloqueio externo, distribuiveis pela categoria da ponte ProposalDependencyTypes.
+	measure 'Propostas com bloqueio externo por dependência' =
+			VAR WorkItemsNoTipo = VALUES('ProposalDependencyTypes'[WorkItemId])
+			RETURN
+			    CALCULATE(
+			        [Propostas com bloqueio externo],
+			        TREATAS(
+			            WorkItemsNoTipo,
+			            'Proposals'[WorkItemId]
+			        )
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos\Gráficos'
+		lineageTag: 4145eaef-5cdc-4282-9d9a-861ca59094f8
+
+	/// Propostas abertas com prazo entre hoje e os proximos sete dias, sem incluir atrasadas.
+	measure 'Propostas com vencimento próximo' =
+			VAR Hoje = TODAY()
+			RETURN
+			    COALESCE(
+			        CALCULATE(
+			            [Carteira atual],
+			            KEEPFILTERS(
+			                FILTER(
+			                    CALCULATETABLE(
+			                        VALUES('Proposals'[TargetDate]),
+			                        REMOVEFILTERS('Calendario')
+			                    ),
+			                    NOT ISBLANK('Proposals'[TargetDate])
+			                        && DATEVALUE('Proposals'[TargetDate]) >= Hoje
+			                        && DATEVALUE('Proposals'[TargetDate]) <= Hoje + 7
+			                )
+			            )
+			        ),
+			        0
+			    )
+		formatString: #,0
+		displayFolder: 'Carteira e Gargalos'
+		lineageTag: a8a7f8ef-678d-4cba-b4c7-8100a9f9db6d
+
+	/// Rótulo dinamico dos botões de filtro rapido; cada contagem ignora apenas a propria seleção desconectada.
+	measure 'Rótulo filtro rápido' =
+			VAR Opcao = SELECTEDVALUE('FiltroRapidoCarteira'[Opção])
+			VAR Quantidade =
+			    SWITCH(
+			        Opcao,
+			        "Todas", CALCULATE([Propostas abertas], REMOVEFILTERS('FiltroRapidoCarteira')),
+			        "Bloqueio externo", CALCULATE([Propostas com bloqueio externo], REMOVEFILTERS('FiltroRapidoCarteira')),
+			        "Bloqueio interno", CALCULATE([Propostas com bloqueio interno], REMOVEFILTERS('FiltroRapidoCarteira')),
+			        "Atrasadas", CALCULATE([Propostas em atraso], REMOVEFILTERS('FiltroRapidoCarteira')),
+			        "Sem movimentação", CALCULATE([Propostas sem movimentação > 15 dias], REMOVEFILTERS('FiltroRapidoCarteira')),
+			        "Vencimento próximo", CALCULATE([Propostas com vencimento próximo], REMOVEFILTERS('FiltroRapidoCarteira')),
+			        0
+			    )
+			RETURN
+			    COALESCE(Opcao, "")
+			        & " ("
+			        & FORMAT(COALESCE(Quantidade, 0), "#,0")
+			        & ")"
+		formatString: @
+		displayFolder: 'Carteira e Gargalos\Tabela'
+		lineageTag: 1bf7e64d-c2b1-4a90-9611-bcbf4a212e8e
+
+	/// Filtro de linhas da tabela operacional: aplica a opção rápida e, quando escolhido, a categoria de dependência da ponte.
+	measure 'Exibir proposta na tabela' =
+			VAR WorkItemAtual = SELECTEDVALUE('Proposals'[WorkItemId])
+			VAR Opcao = SELECTEDVALUE('FiltroRapidoCarteira'[Opção], "Todas")
+			VAR Hoje = TODAY()
+			VAR PropostaAberta = CALCULATE([Propostas abertas]) > 0
+			VAR DependenciaSelecionada = ISFILTERED('ProposalDependencyTypes'[DependencyType])
+			VAR TemDependenciaSelecionada =
+			    CALCULATE(
+			        COUNTROWS('ProposalDependencyTypes'),
+			        TREATAS(
+			            { WorkItemAtual },
+			            'ProposalDependencyTypes'[WorkItemId]
+			        )
+			    ) > 0
+			VAR PassaFiltroRapido =
+			    SWITCH(
+			        Opcao,
+			        "Todas", TRUE(),
+			        "Bloqueio externo", SELECTEDVALUE('Proposals'[Blocked]) = TRUE(),
+			        "Bloqueio interno", SELECTEDVALUE('Proposals'[InternalBlock]) = TRUE(),
+			        "Atrasadas",
+			            VAR Prazo = SELECTEDVALUE('Proposals'[TargetDate])
+			            RETURN NOT ISBLANK(Prazo) && DATEVALUE(Prazo) < Hoje,
+			        "Sem movimentação",
+			            VAR Alteracao = SELECTEDVALUE('Proposals'[ChangedDate])
+			            RETURN NOT ISBLANK(Alteracao) && DATEVALUE(Alteracao) < Hoje - 15,
+			        "Vencimento próximo",
+			            VAR Prazo = SELECTEDVALUE('Proposals'[TargetDate])
+			            RETURN
+			                NOT ISBLANK(Prazo)
+			                    && DATEVALUE(Prazo) >= Hoje
+			                    && DATEVALUE(Prazo) <= Hoje + 7,
+			        FALSE()
+			    )
+			RETURN
+			    IF(
+			        NOT ISBLANK(WorkItemAtual)
+			            && PropostaAberta
+			            && PassaFiltroRapido
+			            && (NOT DependenciaSelecionada || TemDependenciaSelecionada),
+			        1,
+			        0
+			    )
+		formatString: 0
+		displayFolder: 'Carteira e Gargalos\Tabela'
+		lineageTag: f0e13d90-c0ad-4763-a4e7-4d1b355791ea
+
+	column Placeholder
+		dataType: string
+		isHidden
+		lineageTag: 4ca94cc2-280c-4bbf-b2f8-af4505874d80
+		summarizeBy: none
+		sourceColumn: [Placeholder]
+
+		annotation SummarizationSetBy = User
+
+	partition _Medidas = calculated
+		mode: import
+		source = DATATABLE("Placeholder", STRING, {{""}})
+

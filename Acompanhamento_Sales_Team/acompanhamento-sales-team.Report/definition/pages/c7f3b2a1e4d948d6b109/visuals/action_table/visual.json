@@ -389,15 +389,15 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "FiltroExibirCG",
+        "name": "7c36a3b8800e43a2b162",
         "field": {
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "FiltroRapidoCarteira"
+                "Entity": "_Medidas"
               }
             },
-            "Property": "CG Exibir proposta na tabela"
+            "Property": "Exibir proposta na tabela"
           }
         },
         "type": "Advanced",
@@ -406,7 +406,7 @@
           "From": [
             {
               "Name": "m",
-              "Entity": "FiltroRapidoCarteira",
+              "Entity": "_Medidas",
               "Type": 0
             }
           ],
@@ -422,7 +422,7 @@
                           "Source": "m"
                         }
                       },
-                      "Property": "CG Exibir proposta na tabela"
+                      "Property": "Exibir proposta na tabela"
                     }
                   },
                   "Right": {
