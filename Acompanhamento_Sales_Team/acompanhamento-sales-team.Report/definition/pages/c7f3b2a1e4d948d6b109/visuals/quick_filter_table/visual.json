@@ -5,32 +5,14 @@
     "x": 703,
     "y": 825,
     "z": 410,
-    "width": 1165,
     "height": 56,
+    "width": 1165,
     "tabOrder": 410
   },
   "visual": {
     "visualType": "advancedSlicerVisual",
     "query": {
       "queryState": {
-        "Values": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "FiltroRapidoCarteira"
-                    }
-                  },
-                  "Property": "Opção"
-                }
-              },
-              "queryRef": "FiltroRapidoCarteira.Opção",
-              "nativeQueryRef": "Opção"
-            }
-          ]
-        },
         "Label": {
           "projections": [
             {
@@ -46,6 +28,24 @@
               },
               "queryRef": "FiltroRapidoCarteira.CG Contagem do filtro rápido",
               "nativeQueryRef": "CG Contagem do filtro rápido"
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FiltroRapidoCarteira"
+                    }
+                  },
+                  "Property": "Opção"
+                }
+              },
+              "queryRef": "FiltroRapidoCarteira.Opção",
+              "nativeQueryRef": "Opção"
             }
           ]
         }
@@ -181,17 +181,6 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
-                }
-              }
-            },
-            "color": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#D8D4DD'"
-                    }
-                  }
                 }
               }
             },
@@ -362,7 +351,7 @@
                 "Version": 2,
                 "From": [
                   {
-                    "Name": "s",
+                    "Name": "f",
                     "Entity": "FiltroRapidoCarteira",
                     "Type": 0
                   }
@@ -376,7 +365,7 @@
                             "Column": {
                               "Expression": {
                                 "SourceRef": {
-                                  "Source": "s"
+                                  "Source": "f"
                                 }
                               },
                               "Property": "Opção"
@@ -387,7 +376,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'Todas'"
+                                "Value": "'Atrasadas'"
                               }
                             }
                           ]
@@ -491,5 +480,37 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "856236860c5293fce4fc",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FiltroRapidoCarteira"
+              }
+            },
+            "Property": "Opção"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "85e343956a9a69dbe67a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FiltroRapidoCarteira"
+              }
+            },
+            "Property": "CG Contagem do filtro rápido"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

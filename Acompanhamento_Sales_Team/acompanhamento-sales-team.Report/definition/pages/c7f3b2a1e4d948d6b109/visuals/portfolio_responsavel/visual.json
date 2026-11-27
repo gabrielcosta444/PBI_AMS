@@ -5,8 +5,8 @@
     "x": 323,
     "y": 582,
     "z": 202,
-    "width": 741,
     "height": 177,
+    "width": 741,
     "tabOrder": 202
   },
   "visual": {
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "Proposals.AssignedToUserName",
-              "nativeQueryRef": "AssignedToUserName"
+              "nativeQueryRef": "AssignedToUserName",
+              "active": true
             }
           ]
         },
@@ -268,5 +269,37 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "41d73a81e0f433aa66f9",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Proposals"
+              }
+            },
+            "Property": "AssignedToUserName"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "cdecdab289974c7ce2ac",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Medidas"
+              }
+            },
+            "Property": "Propostas abertas"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

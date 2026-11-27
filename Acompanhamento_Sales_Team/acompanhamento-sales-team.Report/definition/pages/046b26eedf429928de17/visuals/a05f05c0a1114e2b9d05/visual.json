@@ -1,43 +1,179 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "a05f05c0a1114e2b9d05",
-  "position": { "x": 24, "y": 741, "z": 6004, "height": 64, "width": 236, "tabOrder": 6004 },
+  "position": {
+    "x": 24,
+    "y": 741,
+    "z": 6004,
+    "height": 64,
+    "width": 236,
+    "tabOrder": 6004
+  },
   "visual": {
     "visualType": "slicer",
     "query": {
       "queryState": {
         "Values": {
-          "projections": [{
-            "field": { "Column": { "Expression": { "SourceRef": { "Entity": "Proposals" } }, "Property": "ProjectType" } },
-            "queryRef": "Proposals.ProjectType",
-            "nativeQueryRef": "ProjectType",
-            "active": true
-          }]
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Proposals"
+                    }
+                  },
+                  "Property": "ProjectType"
+                }
+              },
+              "queryRef": "Proposals.ProjectType",
+              "nativeQueryRef": "ProjectType",
+              "active": true
+            }
+          ]
         }
       }
     },
     "objects": {
-      "data": [{ "properties": { "mode": { "expr": { "Literal": { "Value": "'Dropdown'" } } } } }],
-      "header": [{ "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } }],
-      "selection": [{ "properties": {
-        "selectAllCheckboxEnabled": { "expr": { "Literal": { "Value": "true" } } },
-        "singleSelect": { "expr": { "Literal": { "Value": "false" } } }
-      } }]
+      "data": [
+        {
+          "properties": {
+            "mode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Dropdown'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "header": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "selection": [
+        {
+          "properties": {
+            "selectAllCheckboxEnabled": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "singleSelect": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "visualContainerObjects": {
-      "background": [{ "properties": {
-        "show": { "expr": { "Literal": { "Value": "true" } } },
-        "color": { "solid": { "color": { "expr": { "Literal": { "Value": "'#FFFFFF'" } } } } },
-        "transparency": { "expr": { "Literal": { "Value": "0D" } } }
-      } }],
-      "border": [{ "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } }],
-      "visualHeader": [{ "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } }],
-      "padding": [{ "properties": {
-        "top": { "expr": { "Literal": { "Value": "8D" } } },
-        "bottom": { "expr": { "Literal": { "Value": "8D" } } },
-        "left": { "expr": { "Literal": { "Value": "8D" } } },
-        "right": { "expr": { "Literal": { "Value": "8D" } } }
-      } }]
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "drillFilterOtherVisuals": true
   }

@@ -5,8 +5,8 @@
     "x": 323,
     "y": 325,
     "z": 200,
-    "width": 741,
     "height": 164,
+    "width": 741,
     "tabOrder": 200
   },
   "visual": {
@@ -27,81 +27,8 @@
                 }
               },
               "queryRef": "Proposals.State",
-              "nativeQueryRef": "State"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Medidas"
-                    }
-                  },
-                  "Property": "State 0-7 dias"
-                }
-              },
-              "queryRef": "_Medidas.State 0-7 dias",
-              "nativeQueryRef": "State 0-7 dias"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Medidas"
-                    }
-                  },
-                  "Property": "State 8-15 dias"
-                }
-              },
-              "queryRef": "_Medidas.State 8-15 dias",
-              "nativeQueryRef": "State 8-15 dias"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Medidas"
-                    }
-                  },
-                  "Property": "State 16-30 dias"
-                }
-              },
-              "queryRef": "_Medidas.State 16-30 dias",
-              "nativeQueryRef": "State 16-30 dias"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Medidas"
-                    }
-                  },
-                  "Property": "State 31-60 dias"
-                }
-              },
-              "queryRef": "_Medidas.State 31-60 dias",
-              "nativeQueryRef": "State 31-60 dias"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Medidas"
-                    }
-                  },
-                  "Property": "State >60 dias"
-                }
-              },
-              "queryRef": "_Medidas.State >60 dias",
-              "nativeQueryRef": "State >60 dias"
+              "nativeQueryRef": "State",
+              "active": true
             }
           ]
         },
@@ -176,6 +103,80 @@
               },
               "queryRef": "_Medidas.Propostas acima de 60 dias no State atual",
               "nativeQueryRef": "Propostas acima de 60 dias no State atual"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "State 0-7 dias"
+                }
+              },
+              "queryRef": "_Medidas.State 0-7 dias",
+              "nativeQueryRef": "State 0-7 dias"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "State 8-15 dias"
+                }
+              },
+              "queryRef": "_Medidas.State 8-15 dias",
+              "nativeQueryRef": "State 8-15 dias"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "State 16-30 dias"
+                }
+              },
+              "queryRef": "_Medidas.State 16-30 dias",
+              "nativeQueryRef": "State 16-30 dias"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "State 31-60 dias"
+                }
+              },
+              "queryRef": "_Medidas.State 31-60 dias",
+              "nativeQueryRef": "State 31-60 dias"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "State >60 dias"
+                }
+              },
+              "queryRef": "_Medidas.State >60 dias",
+              "nativeQueryRef": "State >60 dias"
             }
           ]
         }

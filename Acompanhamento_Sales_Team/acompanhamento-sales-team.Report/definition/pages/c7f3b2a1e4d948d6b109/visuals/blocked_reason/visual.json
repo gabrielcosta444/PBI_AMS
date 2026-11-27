@@ -5,8 +5,8 @@
     "x": 1114,
     "y": 325,
     "z": 201,
-    "width": 758,
     "height": 164,
+    "width": 758,
     "tabOrder": 201
   },
   "visual": {
@@ -27,7 +27,26 @@
                 }
               },
               "queryRef": "ProposalDependencyTypes.DependencyType",
-              "nativeQueryRef": "DependencyType"
+              "nativeQueryRef": "DependencyType",
+              "active": true
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FiltroRapidoCarteira"
+                    }
+                  },
+                  "Property": "CG Ocorrências de bloqueio por dependência"
+                }
+              },
+              "queryRef": "FiltroRapidoCarteira.CG Ocorrências de bloqueio por dependência",
+              "nativeQueryRef": "CG Ocorrências de bloqueio por dependência"
             }
           ]
         },
@@ -62,24 +81,6 @@
               "queryRef": "_Medidas.Propostas com bloqueio externo por dependência",
               "nativeQueryRef": "Bloqueio externo",
               "displayName": "Bloqueio externo"
-            }
-          ]
-        },
-        "Tooltips": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "FiltroRapidoCarteira"
-                    }
-                  },
-                  "Property": "CG Ocorrências de bloqueio por dependência"
-                }
-              },
-              "queryRef": "FiltroRapidoCarteira.CG Ocorrências de bloqueio por dependência",
-              "nativeQueryRef": "CG Ocorrências de bloqueio por dependência"
             }
           ]
         }

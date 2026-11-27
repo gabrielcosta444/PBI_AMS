@@ -5,8 +5,8 @@
     "x": 330,
     "y": 890,
     "z": 420,
-    "width": 1538,
     "height": 149,
+    "width": 1538,
     "tabOrder": 420
   },
   "visual": {
@@ -179,6 +179,20 @@
               "queryRef": "Proposals.DependencyType",
               "nativeQueryRef": "DependencyType",
               "displayName": "Dependência"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FiltroRapidoCarteira"
+                    }
+                  },
+                  "Property": "CG Exibir proposta na tabela"
+                }
+              },
+              "queryRef": "FiltroRapidoCarteira.CG Exibir proposta na tabela",
+              "nativeQueryRef": "CG Exibir proposta na tabela"
             }
           ]
         }
@@ -203,13 +217,6 @@
                       "Value": "'#ECE9F0'"
                     }
                   }
-                }
-              }
-            },
-            "horizontalGrid": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
                 }
               }
             }
@@ -243,17 +250,6 @@
                   "Value": "true"
                 }
               }
-            },
-            "background": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#F2F0F5'"
-                    }
-                  }
-                }
-              }
             }
           }
         }
@@ -282,10 +278,10 @@
           }
         }
       ],
-      "totals": [
+      "total": [
         {
           "properties": {
-            "show": {
+            "totals": {
               "expr": {
                 "Literal": {
                   "Value": "false"
@@ -385,5 +381,211 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "06492471cca7a865485c",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Proposals"
+              }
+            },
+            "Property": "WorkItemId"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "7a9360cde80666f52333",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Proposals"
+              }
+            },
+            "Property": "Title"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "e0543a74958eef609c84",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Proposals"
+              }
+            },
+            "Property": "AMSClient"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "4d67ebd4f193c4b6c886",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Proposals"
+              }
+            },
+            "Property": "State"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "96ea5c3a45d91c1a29c3",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Proposals"
+              }
+            },
+            "Property": "AssignedToUserName"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "b51cd0ff25c9d1abadb4",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Medidas"
+              }
+            },
+            "Property": "Idade proposta (dias)"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "8a7331eeeef42539fc54",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Medidas"
+              }
+            },
+            "Property": "Dias no State atual"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "cdf062b885956b13c939",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Proposals"
+              }
+            },
+            "Property": "Blocked"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "802a98ca3842b62cfdba",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Proposals"
+              }
+            },
+            "Property": "InternalBlock"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "3f18b4aaf3f56b11728b",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Proposals"
+              }
+            },
+            "Property": "TargetDate"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "907ab6bb61c708c9cacc",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Proposals"
+              }
+            },
+            "Property": "DependencyType"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "97fb6306f200de112fe7",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FiltroRapidoCarteira"
+              }
+            },
+            "Property": "CG Exibir proposta na tabela"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "f",
+              "Entity": "FiltroRapidoCarteira",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "f"
+                        }
+                      },
+                      "Property": "CG Exibir proposta na tabela"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "1L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
   }
 }

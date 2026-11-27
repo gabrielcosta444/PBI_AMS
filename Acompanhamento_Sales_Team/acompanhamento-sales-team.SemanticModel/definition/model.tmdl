@@ -15,14 +15,14 @@ annotation PBI_ProTooling = ["DevMode"]
 
 ref table CardFields
 ref table ProposalDependencyTypes
-ref table ModoBloqueio
-ref table FiltroRapidoCarteira
 ref table Proposals
 ref table ProposalStateHistory
 ref table ProposalTechnicalLinks
 ref table TechnicalWorkItems
 ref table Calendario
 ref table _Medidas
+ref table ModoBloqueio
+ref table FiltroRapidoCarteira
 
 ref cultureInfo pt-BR
 

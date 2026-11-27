@@ -5,8 +5,8 @@
     "x": 1114,
     "y": 589,
     "z": 203,
-    "width": 755,
     "height": 172,
+    "width": 755,
     "tabOrder": 203
   },
   "visual": {
@@ -27,26 +27,8 @@
                 }
               },
               "queryRef": "Proposals.State",
-              "nativeQueryRef": "State"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Medidas"
-                    }
-                  },
-                  "Property": "Propostas com bloqueio no modo selecionado"
-                }
-              },
-              "queryRef": "_Medidas.Propostas com bloqueio no modo selecionado",
-              "nativeQueryRef": "Quantidade de bloqueios",
-              "displayName": "Quantidade de bloqueios"
+              "nativeQueryRef": "State",
+              "active": true
             }
           ]
         },
@@ -93,6 +75,25 @@
               },
               "queryRef": "_Medidas.% de bloqueio por State",
               "nativeQueryRef": "% de bloqueio por State"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Propostas com bloqueio no modo selecionado"
+                }
+              },
+              "queryRef": "_Medidas.Propostas com bloqueio no modo selecionado",
+              "nativeQueryRef": "Quantidade de bloqueios",
+              "displayName": "Quantidade de bloqueios"
             }
           ]
         }
@@ -404,8 +405,63 @@
               }
             }
           ]
+        }
+      },
+      {
+        "name": "d6fe16105e641a86c17f",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Medidas"
+              }
+            },
+            "Property": "Propostas com bloqueio no modo selecionado"
+          }
         },
-        "howCreated": "User"
+        "type": "Advanced"
+      },
+      {
+        "name": "953a11217ca957b49c8b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Medidas"
+              }
+            },
+            "Property": "Tipo de bloqueio selecionado"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f9041782d43d63f99ee3",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Medidas"
+              }
+            },
+            "Property": "Propostas abertas"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "04e573fe7e4ece7aebea",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Medidas"
+              }
+            },
+            "Property": "% de bloqueio por State"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

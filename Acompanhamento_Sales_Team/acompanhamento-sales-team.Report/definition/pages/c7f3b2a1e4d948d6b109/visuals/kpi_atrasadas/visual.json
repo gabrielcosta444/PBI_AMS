@@ -5,8 +5,8 @@
     "x": 945,
     "y": 154,
     "z": 1000,
-    "width": 270,
     "height": 68,
+    "width": 270,
     "tabOrder": 1000
   },
   "visual": {
@@ -173,7 +173,6 @@
           }
         }
       ]
-    },
-    "drillFilterOtherVisuals": false
+    }
   }
 }

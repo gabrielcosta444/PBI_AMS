@@ -5,8 +5,8 @@
     "x": 1569,
     "y": 154,
     "z": 1000,
-    "width": 306,
     "height": 68,
+    "width": 306,
     "tabOrder": 1000
   },
   "visual": {
@@ -173,7 +173,24 @@
           }
         }
       ]
-    },
-    "drillFilterOtherVisuals": false
+    }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "12a14bddcbb1a6cea158",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Medidas"
+              }
+            },
+            "Property": "Idade mediana da carteira (dias)"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

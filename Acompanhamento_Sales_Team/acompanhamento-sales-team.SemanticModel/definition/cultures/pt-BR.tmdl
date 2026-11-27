@@ -1,2 +1,305 @@
 cultureInfo pt-BR
 
+	linguisticMetadata =
+			{
+			  "Version": "2.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "proposals.workitemid": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Proposals",
+			          "ConceptualProperty": "WorkItemId"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Work Item ID": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "proposals.title": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Proposals",
+			          "ConceptualProperty": "Title"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Título": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "proposals.amsclient": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Proposals",
+			          "ConceptualProperty": "AMSClient"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Cliente": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "proposals.state": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Proposals",
+			          "ConceptualProperty": "State"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "State": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "proposals.assignedtousername": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Proposals",
+			          "ConceptualProperty": "AssignedToUserName"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Responsável": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "proposals.blocked": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Proposals",
+			          "ConceptualProperty": "Blocked"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Externo?": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "proposals.internalblock": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Proposals",
+			          "ConceptualProperty": "InternalBlock"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Interno?": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "proposals.targetdate": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Proposals",
+			          "ConceptualProperty": "TargetDate"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Prazo": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "proposals.dependencytype": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Proposals",
+			          "ConceptualProperty": "DependencyType"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Dependência": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_medidas.idade_proposta_dias": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Idade proposta (dias)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Idade (dias)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_medidas.dias_no_state_atual": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Dias no State atual"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Dias no State": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_medidas.propostas_com_bloqueio_interno_por_dependência": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Propostas com bloqueio interno por dependência"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Bloqueio interno": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_medidas.propostas_com_bloqueio_externo_por_dependência": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Propostas com bloqueio externo por dependência"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Bloqueio externo": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_medidas.propostas_com_bloqueio_no_modo_selecionado": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Propostas com bloqueio no modo selecionado"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Quantidade de bloqueios": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    }
+			  }
+			}
+		contentType: json
+

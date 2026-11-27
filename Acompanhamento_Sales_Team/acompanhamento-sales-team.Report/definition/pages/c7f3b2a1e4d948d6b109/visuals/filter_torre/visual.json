@@ -5,8 +5,8 @@
     "x": 24,
     "y": 445,
     "z": 310,
-    "width": 236,
     "height": 48,
+    "width": 236,
     "tabOrder": 310
   },
   "visual": {
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "Proposals.ProjectWorkTypes",
-              "nativeQueryRef": "ProjectWorkTypes"
+              "nativeQueryRef": "ProjectWorkTypes",
+              "active": true
             }
           ]
         }

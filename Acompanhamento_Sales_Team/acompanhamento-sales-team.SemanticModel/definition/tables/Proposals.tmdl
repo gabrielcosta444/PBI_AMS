@@ -233,14 +233,6 @@ table Proposals
 
 		annotation SummarizationSetBy = Automatic
 
-	column BlockedReasonDisplay = IF([Blocked] = TRUE() && LEN(TRIM([BlockedReason] & "")) = 0, "(Sem motivo)", [BlockedReason])
-		dataType: string
-		displayFolder: 'Carteira e Gargalos'
-		lineageTag: b2e0f37c-6995-4466-8d67-d2778d42f555
-		summarizeBy: none
-
-		annotation SummarizationSetBy = User
-
 	column DependencyType
 		dataType: string
 		lineageTag: 70c17aab-6e28-4880-b065-191153dbf28d
@@ -351,6 +343,14 @@ table Proposals
 		isHidden
 		formatString: 0
 		lineageTag: 3db75a45-8a19-440f-8f0e-703899b42df4
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
+	column BlockedReasonDisplay = IF([Blocked] = TRUE() && LEN(TRIM([BlockedReason] & "")) = 0, "(Sem motivo)", [BlockedReason])
+		dataType: string
+		displayFolder: 'Carteira e Gargalos'
+		lineageTag: b2e0f37c-6995-4466-8d67-d2778d42f555
 		summarizeBy: none
 
 		annotation SummarizationSetBy = User

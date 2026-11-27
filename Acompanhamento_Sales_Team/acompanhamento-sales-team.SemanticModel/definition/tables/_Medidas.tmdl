@@ -178,6 +178,7 @@ table _Medidas
 			)
 		formatString: #,0
 		displayFolder: Validação
+		lineageTag: c98072ab-8e43-4335-af8e-db9988e7c7fe
 
 	/// Contagem historica dos encaminhamentos ao suporte, que nao sao recusas comerciais.
 	measure 'Validação - transferidas ao suporte' =
@@ -193,6 +194,7 @@ table _Medidas
 			)
 		formatString: #,0
 		displayFolder: Validação
+		lineageTag: 0613ef72-70d6-4d23-955c-bc058c6f1c57
 
 	/// Quantidade atual de propostas em States nao fechados; independe do periodo, mas respeita os demais filtros.
 	measure 'Carteira atual' =
@@ -216,6 +218,7 @@ table _Medidas
 			)
 		formatString: #,0
 		displayFolder: 'Visão Geral\Gráficos'
+		lineageTag: 6814099a-82e5-4c1c-88a7-c42df892f061
 
 	/// Participacao do State na carteira aberta. Use como tooltip da carteira atual por State.
 	measure 'Carteira atual (% por State)' =
@@ -228,6 +231,7 @@ table _Medidas
 			)
 		formatString: 0.0%
 		displayFolder: 'Visão Geral\Gráficos'
+		lineageTag: 48d79c72-fdf8-4907-9918-c4ef1a945b78
 
 	/// Percentual de recusas dentre as decisoes comerciais; pode ser exibido no tooltip por responsavel.
 	measure 'Taxa de recusa' =
@@ -237,6 +241,7 @@ table _Medidas
 			)
 		formatString: 0.0%
 		displayFolder: 'Visão Geral\Gráficos'
+		lineageTag: ad71cc21-8135-4a59-b1c9-1354050c891d
 
 	/// Recusas comerciais com ReasonforDiscarded preenchido (sem nulos, vazios ou so espacos).
 	/// As exclusoes administrativas e o periodo de fechamento ja estao na medida base Propostas recusadas.
@@ -252,6 +257,7 @@ table _Medidas
 			)
 		formatString: #,0
 		displayFolder: 'Visão Geral\Gráficos'
+		lineageTag: bf334d7f-f4d7-4fdb-b4af-5613e53a2dd4
 
 	/// Recusas comerciais sem motivo informado no contexto atual; nao devem aparecer no grafico de motivos.
 	measure 'Validação - recusas sem motivo' =
@@ -269,6 +275,7 @@ table _Medidas
 			)
 		formatString: #,0
 		displayFolder: Validação
+		lineageTag: 26fc5cfd-5e99-425c-b3d1-4b0f6339346a
 
 	/// Carteira valida atual em qualquer State aberto; nao e uma coorte historica.
 	measure 'Propostas abertas' = [Carteira atual]
@@ -908,8 +915,7 @@ table _Medidas
 		lineageTag: 1bf7e64d-c2b1-4a90-9611-bcbf4a212e8e
 
 	/// Filtro de linhas da tabela operacional: aplica a opção rápida e, quando escolhido, a categoria de dependência da ponte.
-	measure 'Exibir proposta na tabela' =
-			'FiltroRapidoCarteira'[CG Exibir proposta na tabela]
+	measure 'Exibir proposta na tabela' = 'FiltroRapidoCarteira'[CG Exibir proposta na tabela]
 		formatString: 0
 		displayFolder: 'Carteira e Gargalos\Tabela'
 		lineageTag: f0e13d90-c0ad-4763-a4e7-4d1b355791ea
